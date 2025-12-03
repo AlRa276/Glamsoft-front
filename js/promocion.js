@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <div class="promo-content">
                             <h2 class="promo-title">${promo.nombre}</h2>
                             <p class="promo-desc">${promo.descripcion || 'Aprovecha un descuento de ' + descuentoTexto}</p>
-                            <button class="btn-promo agendar-ahora">AGENDAR AHORA</button>
+                            <button class="btn-promo-agendar">AGENDAR AHORA</button>
                         </div>
                     `;
                     
@@ -56,9 +56,36 @@ document.addEventListener('DOMContentLoaded', async () => {
                     
                     promoContainer.appendChild(card);
 
-                    const agendarAhoraBtn = card.querySelector('.agendar-ahora');
-                    agendarAhoraBtn.addEventListener('click', () => {
-                        window.location.href = 'agendar.html';
+                    // ✅ CAMBIO CRÍTICO: Verificar login antes de agendar
+                    const agendarBtn = card.querySelector('.btn-promo-agendar');
+                    agendarBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
+                        // Verificar si está logeado
+                        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+                        
+                        if (!isLoggedIn) {
+                            // No está logeado: abrir modal de autenticación
+                            console.log('Usuario no logeado - abriendo modal de autenticación');
+                            
+                            // Guardar que queremos ir a agendar después del login
+                            sessionStorage.setItem('redirectAfterAuth', 'agendar.html');
+                            
+                            // Abrir modal de autenticación
+                            const authModal = document.getElementById('authModal');
+                            if (authModal) {
+                                authModal.style.display = 'flex';
+                            } else {
+                                console.error('Modal de autenticación no encontrado');
+                                alert('Debes iniciar sesión para agendar una cita');
+                                window.location.href = 'inicio.html';
+                            }
+                        } else {
+                            // Está logeado: redirigir a agendar
+                            console.log('Usuario logeado - redirigiendo a agendar');
+                            window.location.href = 'agendar.html';
+                        }
                     });
                 });
                 

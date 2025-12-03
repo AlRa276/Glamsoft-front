@@ -80,7 +80,7 @@ class ServiciosCliente {
                             <span class="service-price">$${parseFloat(servicio.precio).toFixed(2)}</span>
                             <span class="service-duration"><i class="far fa-clock"></i> ${servicio.duracion} min</span>
                         </div>
-                        <button class="btn-agendar" data-servicio-id="${servicio.idServicio}">Agendar</button>
+                        <button class="btn-agendar-servicio" data-servicio-id="${servicio.idServicio}">Agendar</button>
                     </div>
                 </div>
             </div>
@@ -91,10 +91,45 @@ class ServiciosCliente {
     }
 
     attachAgendarButtons() {
-        document.querySelectorAll('.btn-agendar').forEach(btn => {
+        // ✅ CAMBIO CRÍTICO: Verificar login antes de agendar
+        document.querySelectorAll('.btn-agendar-servicio').forEach(btn => {
             btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                
                 const idServicio = parseInt(e.target.dataset.servicioId);
-                this.agendarServicio(idServicio);
+                
+                // Verificar si está logeado
+                const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+                
+                if (!isLoggedIn) {
+                    // No está logeado: guardar selección y abrir modal de auth
+                    console.log('Usuario no logeado - abriendo modal de autenticación');
+                    
+                    // Guardar servicio seleccionado para después del login
+                    localStorage.setItem('servicioSeleccionado', idServicio.toString());
+                    
+                    const servicio = this.servicios.find(s => s.idServicio === idServicio);
+                    if (servicio) {
+                        localStorage.setItem('servicioSeleccionadoData', JSON.stringify(servicio));
+                    }
+                    
+                    // Guardar que queremos ir a agendar después del login
+                    sessionStorage.setItem('redirectAfterAuth', 'agendar.html');
+                    
+                    // Abrir modal de autenticación
+                    const authModal = document.getElementById('authModal');
+                    if (authModal) {
+                        authModal.style.display = 'flex';
+                    } else {
+                        console.error('Modal de autenticación no encontrado');
+                        alert('Debes iniciar sesión para agendar una cita');
+                        window.location.href = 'inicio.html';
+                    }
+                } else {
+                    // Está logeado: proceder normalmente
+                    this.agendarServicio(idServicio);
+                }
             });
         });
     }
@@ -111,14 +146,12 @@ class ServiciosCliente {
         try {
             localStorage.setItem('servicioSeleccionado', idServicio.toString());
             localStorage.setItem('servicioSeleccionadoData', JSON.stringify(servicio));
+            
+            console.log('Redirigiendo a agendar.html con servicio:', idServicio);
             window.location.href = 'agendar.html';
         } catch (error) {
-            // Mostrar error amable si falla la redirección/almacenamiento
-            if (typeof openErrorModal === 'function') {
-                openErrorModal('No se pudo continuar al agendado. Intenta nuevamente.');
-            } else {
-                this.showNotification('No se pudo continuar al agendado. Intenta nuevamente.', 'error');
-            }
+            console.error('Error al guardar servicio:', error);
+            this.showNotification('No se pudo continuar al agendado. Intenta nuevamente.', 'error');
         }
     }
 
