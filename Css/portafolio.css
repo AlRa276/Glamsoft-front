@@ -1,0 +1,356 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #000;
+    color: #fff;
+    font-family: 'Lato', sans-serif;
+}
+
+
+
+
+h2 {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    padding-left: 5%; 
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+/*
+|--------------------------------------------------------------------------
+| ETIQUETA DE UBICACIÓN
+|--------------------------------------------------------------------------
+*/
+
+.location-tag {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 0 30px 0;
+}
+
+.location-tag h1 {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-text-light);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1px solid var(--color-border-dark);
+    padding-bottom: 15px;
+}
+
+
+/* GRID DE PORTAFOLIO ASIMÉTRICO (Gallery View)*/
+/* NIVEL 3: Navegación Principal (Inferior y Centrada) */
+.header-level-3 {
+    display: flex;
+    justify-content: center; /* Asegura el centrado horizontal de la barra principal */
+    align-items: center;
+    padding-top: 15px;
+    padding-bottom: 5px; 
+}
+
+/* Navegación Principal y BARRA DESLIZANTE */
+.main-nav {
+    position: relative;
+    /* CLAVE: Añadir un padding horizontal para que la barra deslizante tenga un límite visual más amplio */
+    padding: 0 20px; 
+}
+
+.main-nav ul {
+    list-style: none;
+    display: flex;
+    gap: 40px; 
+    text-transform: uppercase;
+    font-family: var(--font-text);
+    font-size: 0.9rem;
+    font-weight: 400;
+}
+
+.main-nav a {
+    /* Padding uniforme para que el indicador calcule el ancho de forma consistente */
+    padding: 5px 10px; 
+    display: block;
+}
+
+/* Elemento deslizante (Controlado por JS) */
+.active-indicator {
+    position: absolute;
+    bottom: 0; 
+    height: 2px;
+    background-color: var(--color-accent-gold); /* Asegura el color dorado */
+    width: 0; 
+    transition: left 0.3s ease, width 0.3s ease; 
+}
+
+/* AJUSTA ESTA REGLA */
+.portfolio-gallery-section {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto 100px auto; /* CAMBIADO: 120px -> 0 */
+    padding: 30px 0 0 0; /* Mantenemos un padding si quieres */
+}
+/* Aseguramos que todo el contenido principal esté por debajo del navbar */
+main {
+    margin-top: 170px; 
+    position: relative;
+    z-index: 1;
+}
+
+/* Aseguramos que el navbar esté por encima */
+.main-header {
+    background: #000;
+    padding: 20px 40px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    border-bottom: 1px solid #333;
+}
+
+/* =====================================
+CSS DE LA GALERÍA DE 3 COLUMNAS
+=====================================
+Reemplaza tu .gallery-grid y tus clases .item-
+(como .item-main-portrait, etc.) por ESTE bloque.
+*/
+
+.gallery-grid {
+    display: grid;
+    /* CLAVE: 3 columnas como en tu diseño */
+    grid-template-columns: repeat(3, 1fr);
+    /* Una altura de fila base. Los items se estirarán (span) */
+    grid-auto-rows: 250px; 
+    gap: 15px;
+}
+
+.gallery-item {
+    background-color: #222; /* Color mientras carga la imagen */
+    border-radius: 5px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid transparent; 
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.gallery-item .item-content {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+/* Overlay para descripciones */
+.item-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 70%, transparent 100%);
+    padding: 30px 20px 20px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    display: flex;
+    align-items: flex-end;
+}
+
+.gallery-item:hover .item-overlay {
+    opacity: 1;
+}
+
+.item-overlay p {
+    color: #ffffff;
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    font-weight: 400;
+}
+
+/* CLASE DE HOVER (La tuya, funciona perfecto) */
+.js-hover-item.is-hovering {
+    border-color: #b8860b !important; 
+    box-shadow: 0 0 15px rgba(184, 134, 11, 0.4); 
+    transform: scale(1.02);
+    z-index: 5;
+}
+
+/* =====================================
+LAYOUT ESPECÍFICO DE LA IMAGEN
+=====================================
+Estas clases (item-1, item-2, etc.) coinciden con el HTML nuevo
+y posicionan cada bloque exactamente como en tu diseño.
+*/
+
+/* (C1, R1-2) Portrait */
+.item-1 { grid-column: 1 / 2; grid-row: 1 / 3; } 
+/* (C2-3, R1) Landscape */
+.item-2 { grid-column: 2 / 4; grid-row: 1 / 2; } 
+/* (C3, R2-3) Portrait */
+.item-3 { grid-column: 3 / 4; grid-row: 2 / 4; } 
+/* (C1, R3-5) Tall Portrait */
+.item-4 { grid-column: 1 / 2; grid-row: 3 / 6; } 
+/* (C2, R2-3) Portrait (Imagen roja) */
+.item-5 { grid-column: 2 / 3; grid-row: 2 / 4; } 
+/* (C2, R4-5) Portrait */
+.item-6 { grid-column: 2 / 3; grid-row: 4 / 6; } 
+/* (C3, R4-6) Tall Portrait */
+.item-7 { grid-column: 3 / 4; grid-row: 4 / 7; } 
+/* (C1-2, R6) Landscape */
+.item-8 { grid-column: 1 / 3; grid-row: 6 / 7; }
+
+/* =====================================
+MEDIA QUERY PARA LA GALERÍA
+=====================================
+Asegúrate de que tu media query para 768px incluya esto
+para resetear la galería en móviles.
+*/
+@media (max-width: 768px) {
+    .gallery-grid {
+        grid-template-columns: 1fr; /* Cambia a 1 columna */
+        grid-auto-rows: 300px; /* Filas fijas en móvil */
+    }
+    
+    /* Resetea los spans en móvil */
+    .gallery-item {
+        grid-column: span 1 !important;
+        grid-row: span 1 !important;
+    }
+    
+    /* ... (tus otras reglas de 768px para el header, etc.) ... */
+}
+/* ===================================
+   FOOTER
+   =================================== */
+
+.main-footer {
+    background: #000;
+    padding: 40px;
+    border-top: 1px solid #333;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+}
+
+.contact-info h3, 
+.schedule-info h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    font-weight: 400;
+}
+
+.contact-info p,
+.schedule-info p {
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;
+    line-height: 1.8;
+    color: #ccc;
+}
+
+.social-links {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.social-links a {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 18px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.social-links a:hover {
+    background: #b8860b;
+    border-color: #b8860b;
+    transform: translateY(-3px);
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+    .portfolio-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .main-header {
+        padding: 15px 20px;
+    }
+
+    .logo {
+        font-size: 20px;
+        letter-spacing: 4px;
+    }
+
+    .main-nav ul {
+        gap: 20px;
+    }
+
+    .main-nav ul li a {
+        font-size: 10px;
+    }
+
+    main {
+        padding: 20px;
+        margin-top: 160px;
+    }
+
+    .portfolio-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+    
+    .destacado-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .comentarios-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-image {
+        height: 400px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-right {
+        gap: 10px;
+    }
+
+    .btn-agendar {
+        padding: 8px 12px;
+        font-size: 9px;
+    }
+
+    .portfolio-grid {
+        grid-template-columns: 1fr;
+    }
+}

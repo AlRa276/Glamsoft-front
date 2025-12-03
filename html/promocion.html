@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promociones - Glamsoft</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=GFS+Didot&family=Lato:wght@300;400;700&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+         <link rel="stylesheet" href="../Css/modals/logout_confirm.css">
+        <link rel="stylesheet" href="../Css/modals/notificacion.css">
+        <link rel="stylesheet" href="../Css/modals/agendar_servicios.css">
+    <link rel="stylesheet" href="../Css/promocion.css">
+    <link rel="stylesheet" href="../Css/header_footer.css">
+    <link rel="stylesheet" href="../Css/modals/register.css">
+    <link rel="stylesheet" href="../Css/modals/profile_menu.css">
+
+
+</head>
+<body>
+
+    <div id="header-placeholder"></div>
+
+    <main class="promo-main">
+        <div class="promo-container">
+            <!-- Las promociones se cargarán dinámicamente desde la API -->
+        </div>
+    </main>
+
+    <div id="footer-placeholder"></div>
+
+    <div id="modal-placeholder"></div>
+    <div id="modal-placeholder-logout"></div>
+
+
+
+   <div id="modal-placeholder-agendar"></div>
+
+    <!-- Scripts - Orden de carga importante -->
+    <!-- 1. Configuración -->
+    <script src="../config/api.config.js"></script>
+
+    <!-- 2. Servicios HTTP base -->
+    <script src="../services/http.service.js"></script>
+
+    <!-- 3. Servicios específicos -->
+    <script src="../services/auth.service.js"></script>
+    <script src="../services/categorias.service.js"></script>
+
+    <!-- 4. Utilidades -->
+    <script src="../utils/error-handler.js"></script>
+    <script src="../utils/state-manager.js"></script>
+
+    <!-- 5. Scripts de página -->
+    <script src="../js/header_footer.js"></script>
+    <script src="../js/promocion.js"></script>
+
+</body>
+</html>

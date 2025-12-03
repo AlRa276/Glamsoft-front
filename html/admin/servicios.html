@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Servicios - Panel Administrativo</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <link rel="stylesheet" href="../../Css/admin/admin-global.css">
+    <link rel="stylesheet" href="../../Css/modals/profile_menu.css">
+    <link rel="stylesheet" href="../../Css/modals/custom-modal.css">
+    
+    <style>
+        /* ==========================================
+           ESTILOS DE BUSCADOR (Nuevo Diseño)
+           ========================================== */
+        .search-flex {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .search-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .label-text {
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .search-wrapper {
+            display: flex;
+            flex: 1;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .search-wrapper input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+            border-right: none;
+            border-radius: 8px 0 0 8px;
+            outline: none;
+            font-size: 14px;
+            transition: border-color 0.3s;
+            width: 100%;
+        }
+
+        .search-wrapper input:focus {
+            border-color: #B8860B;
+        }
+
+        .search-wrapper button {
+            padding: 0 25px;
+            background-color: #000;
+            color: #fff;
+            border: 1px solid #000;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .search-wrapper button:hover {
+            background-color: #333;
+        }
+
+        .filter-select {
+            padding: 10px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            min-width: 180px;
+            outline: none;
+            cursor: pointer;
+            background-color: white;
+        }
+
+        .filter-select:focus {
+            border-color: #B8860B;
+        }
+
+        /* Estilos específicos de la tabla de servicios */
+        .servicio-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 1px solid #eee;
+        }
+
+        .price-tag {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .category-badge {
+            background: #f8f9fa;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            color: #666;
+            border: 1px solid #eee;
+        }
+
+        /* Ajuste menú perfil */
+        .profile-menu-modal { top: 90px !important; right: 30px !important; border: 1px solid white; }
+        
+        /* Modal */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; align-items: center; justify-content: center; }
+        .modal-overlay.active { display: flex; }
+        .modal-content { background: white; border-radius: 12px; width: 90%; max-width: 600px; padding: 0; box-shadow: 0 10px 40px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 25px; border-bottom: 1px solid #eee; }
+        .modal-title { font-size: 20px; font-weight: 600; margin: 0; }
+        .close-modal { background: none; border: none; font-size: 28px; cursor: pointer; color: #999; }
+        #formServicio { padding: 25px; }
+        .form-group { margin-bottom: 20px; }
+        .form-label { display: block; margin-bottom: 8px; font-weight: 500; font-size: 14px; }
+        .form-control { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; }
+        .form-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+        .btn { padding: 10px 20px; border-radius: 6px; border: none; cursor: pointer; font-weight: 500; }
+        .btn-primary { background: #000; color: white; }
+        .btn-secondary { background: #eee; color: #333; }
+        
+        @media (max-width: 768px) {
+            .search-flex { flex-direction: column; align-items: stretch; }
+        }
+    </style>
+</head>
+<body class="admin-page">
+    
+    <div id="sidebarContainer"></div>
+    
+    <div class="admin-content">
+        
+        <header class="admin-header">
+            <div class="header-title">
+                <h1>Gestión de Servicios</h1>
+            </div>
+            <div class="header-actions">
+                
+                <button class="btn btn-primary" id="btnNuevoServicio" style="margin-left: 15px;">
+                    <i class="fas fa-plus"></i> Nuevo Servicio
+                </button>
+            </div>
+        </header>
+        
+        <main class="main-content">
+            
+            <div class="content-card">
+                <div class="search-flex">
+                    <div class="search-group">
+                        <label for="searchInput" class="label-text">Buscar</label>
+                        <div class="search-wrapper">
+                            <input type="text" id="searchInput" placeholder="Buscar servicios...">
+                            <button type="button">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="filterCategoria" class="label-text">Categoría</label>
+                        <select class="filter-select" id="filterCategoria">
+                            <option value="">Todas las categorías</option>
+                            </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="content-card">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Imagen</th>
+                            <th>Nombre</th>
+                            <th>Categoría</th>
+                            <th>Precio</th>
+                            <th>Duración</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="serviciosTableBody">
+                        </tbody>
+                </table>
+                
+                <div id="emptyState" style="display: none; text-align: center; padding: 40px;">
+                    <i class="fas fa-cut" style="font-size: 48px; color: #bdc3c7; margin-bottom: 15px;"></i>
+                    <p style="color: #7f8c8d;">No se encontraron servicios</p>
+                </div>
+            </div>
+            
+        </main>
+    </div>
+
+    <div id="notificationMenu" class="profile-menu-modal notification-menu" style="display: none;">
+        <div class="profile-menu-header">
+            <span class="profile-menu-name">Notificaciones</span>
+            <a href="#" title="Notificaciones eliminadas">Ver todas</a>
+        </div>
+        <div class="notification-list" id="notificationList"></div>
+    </div>
+
+    <div id="profileMenuModal" class="profile-menu-modal">
+        <div class="profile-menu-header">
+            <div class="profile-menu-avatar"></div>
+            <span class="profile-menu-name" id="menuUserName">Cargando...</span>
+        </div>
+        <nav class="profile-menu-nav">
+            <ul><li><a href="#" id="headerLogoutBtn" style="color: #ff6b6b;">Cerrar sesión</a></li></ul>
+        </nav>
+    </div>
+    
+    <div class="modal-overlay" id="modalServicio">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">Nuevo Servicio</h2>
+                <button class="close-modal" onclick="closeModal()">&times;</button>
+            </div>
+            
+            <form id="formServicio">
+                <input type="hidden" id="servicioId">
+                
+                <div class="form-group">
+                    <label class="form-label">Nombre del Servicio *</label>
+                    <input type="text" class="form-control" id="nombreServicio" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Categoría *</label>
+                    <select class="form-control" id="categoriaServicio" required>
+                        <option value="">Seleccionar...</option>
+                    </select>
+                </div>
+                
+                <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div class="form-group">
+                        <label class="form-label">Precio ($) *</label>
+                        <input type="number" class="form-control" id="precioServicio" min="0" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Duración (minutos) *</label>
+                        <input type="number" class="form-control" id="duracionServicio" min="5" step="5" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Imagen del Servicio</label>
+                    <input type="file" class="form-control" id="imagenServicio" accept="image/*">
+                    <small style="color: #666; font-size: 12px;">Tamaño máximo: 5MB. Formatos: JPG, PNG, GIF</small>
+                    <div id="imagenPreview" style="display: none; margin-top: 10px; position: relative;">
+                        <img id="previewImg" style="max-width: 100%; max-height: 200px; border-radius: 8px; border: 1px solid #ddd;">
+                        <button type="button" id="removeImageBtn" class="btn btn-secondary" style="margin-top: 10px;">
+                            <i class="fas fa-times"></i> Quitar Imagen
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Descripción</label>
+                    <textarea class="form-control" id="descripcionServicio" rows="3"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" style="display: flex; align-items: center; gap: 10px;">
+                        <input type="checkbox" id="activoServicio" checked style="width: auto;">
+                        <span>Servicio Activo</span>
+                    </label>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="admin-loader" id="loader" style="display: none;"><div class="loader-spinner"></div></div>
+
+    <script src="../../config/api.config.js"></script>
+    <script src="../../utils/loader-manager.js"></script>
+    <script src="../../services/http.service.js"></script>
+    <script src="../../services/auth.service.js"></script>
+    <script src="../../services/servicios.service.js"></script>
+    <script src="../../services/categorias.service.js"></script>
+    <script src="../../services/formularios.service.js"></script>
+    <script src="../../services/notificaciones.service.js"></script>
+    <script src="../../utils/error-handler.js"></script>
+    <script src="../../utils/state-manager.js"></script>
+
+    <script src="../../utils/custom-modal.js"></script>
+    <script src="../../js/admin/servicios.js"></script>
+    <script src="../../js/admin/dashboard.js"></script>
+    
+    <script>
+      fetch('_sidebar.html')
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById('sidebarContainer').innerHTML = html;
+            
+            // --- LÓGICA DEL BOTÓN CERRAR SESIÓN DEL SIDEBAR ---
+            const sidebarLogoutBtn = document.getElementById('logoutBtn'); // ID que está en _sidebar.html
+            
+            if (sidebarLogoutBtn) {
+                sidebarLogoutBtn.addEventListener('click', async function(e) {
+                    e.preventDefault();
+                    
+                    // Usamos el mismo modal personalizado que en el header
+                    const confirmed = await customConfirm(
+                        '¿Estás seguro de que deseas cerrar sesión?', 
+                        'Cerrar Sesión', 
+                        { icon: 'ph-sign-out' }
+                    );
+
+                    if (confirmed) {
+                        await AuthService.logout();
+                        window.location.href = '../inicio.html';
+                    }
+                });
+            }
+            
+            // Marcar activo el item del menú actual (Lógica visual)
+            const path = window.location.pathname;
+            const page = path.split('/').pop().replace('.html', '') || 'dashboard';
+            const menuItems = document.querySelectorAll('.menu-item');
+            menuItems.forEach(item => {
+                if (item.getAttribute('data-page') === page) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+    // Funciones globales de modales (si las necesitas aquí)
+    function closeModal() {
+        const modal = document.querySelector('.modal-overlay.active');
+        if(modal) modal.classList.remove('active');
+    }  </script>
+    
+</body>
+</html>

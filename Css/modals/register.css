@@ -1,0 +1,104 @@
+/* --- PARTE 1: ESTRUCTURA BASE (CRÍTICA, ASEGÚRATE DE TENER ESTO) --- */
+.modal {
+    display: none; /* ¡IMPORTANTE! Oculto por defecto */
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.6);
+    backdrop-filter: blur(6px);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #0d0d0d;
+    margin: auto; /* Centrado automático si usamos flex en el padre */
+    padding: 32px;
+    border: 1px solid #333;
+    width: 92%;
+    max-width: 420px;
+    color: #e0e0e0;
+    position: relative;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.close-btn-auth {
+    color: white;
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.close-btn:hover { color: #d4af37; }
+.modal-content h2 { margin-bottom: 24px; font-weight: 400; letter-spacing: 1px; color: #e0e0e0; }
+.input-group { margin-bottom: 25px; text-align: left; }
+.input-group label { display: block; margin-bottom: 8px; font-size: 13px; color: #bdbdbd; letter-spacing: 0.5px; }
+
+/* --- PARTE 2: TUS ESTILOS (YA LOS TIENES, PERO REVISA) --- */
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #333;
+    background-color: #0a0a0a;
+    color: #d9d9d9;
+    font-family: 'Montserrat', sans-serif;
+    border-radius: 2px;
+    box-sizing: border-box; /* Agregado para evitar desbordes */
+}
+.btn-submit {
+    width: 100%;
+    padding: 12px;
+    background: transparent;
+    color: #e0e0e0;
+    border: 1px solid #e0e0e0;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 20px;
+    transition: all 0.2s;
+}
+.btn-submit:hover { background: #B8860B; color: #000; border-color: #B8860B; }
+.switch-auth { margin-top: 20px; font-size: 13px; color: #bdbdbd; }
+.switch-auth a { color: #e0e0e0; text-decoration: none; border-bottom: 1px solid #333; padding-bottom: 2px; }
+.switch-auth a:hover { text-decoration: underline; }
+
+/* --- NUEVO: Estilos para ver/ocultar contraseña --- */
+.input-group {
+    position: relative; /* Necesario para posicionar el ícono */
+}
+
+.toggle-password {
+    position: absolute;
+    right: 15px;
+    top: 40px; /* Ajusta según la altura de tu label + input */
+    cursor: pointer;
+    color: #666;
+    font-size: 1.1rem;
+    transition: color 0.3s;
+    z-index: 10;
+}
+
+.toggle-password:hover {
+    color: #B8860B; /* Color dorado al pasar el mouse */
+}
+/* --- Estilos para validaciones inline --- */
+.input-group input.input-error {
+    border: 1px solid #ff4444 !important; /* Rojo brillante */
+    background-color: rgba(255, 68, 68, 0.05); /* Fondo rojizo muy sutil */
+}
+
+.error-text {
+    color: #ff4444;
+    font-size: 0.8rem;
+    margin-top: 5px;
+    display: block;
+    font-weight: 500;
+}

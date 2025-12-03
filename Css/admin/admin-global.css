@@ -1,0 +1,1093 @@
+/* =====================================
+   ESTILOS GLOBALES ADMIN 
+   ===================================== */
+
+/*fuetne Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+    
+    --sidebar-bg: #000000;         
+    --sidebar-text: #ffffff;       
+    --sidebar-text-muted: #f9f7f7; /* Gris suave para el texto cuando anda inactivo */
+    --sidebar-hover: #1a1a1a;      /* Gris  oscuro pa hover */
+    --sidebar-accent: #536dfe;     /* Caver que tal */
+    --sidebar-width: 260px;
+
+    /* Colores  del admin */
+    --admin-bg: #f4f6f9;          /* Fondo general gris muy claro */
+    --admin-text: #333333;        /* Texto general */
+    --admin-primary: #000000;     /* Títulos principales en negro */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body.admin-page {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--admin-bg);
+    color: var(--admin-text);
+    line-height: 1.6;
+    font-size: 14px; 
+}
+
+
+
+.sidebar-header {
+    padding: 30px 25px; 
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.brand-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.brand-icon {
+    font-size: 22px;
+    color: var(--sidebar-text);
+    background: rgba(255,255,255,0.1);
+    width: 42px;
+    height: 42px;
+    border-radius: 10px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.brand-text h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    font-weight: 600; 
+    letter-spacing: 0.5px;
+    margin: 0;
+    color: white;
+}
+
+/* --- Menú --- */
+.sidebar-menu {
+    flex: 1;
+    padding: 25px 0;
+    overflow-y: auto;
+}
+
+.sidebar-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-menu li {
+    margin-bottom: 8px; 
+}
+
+.menu-section-label {
+    padding: 20px 30px 10px 30px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: rgba(255,255,255,0.3);
+    font-weight: 500;
+}
+
+/* --- Items del Menú --- */
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 14px 30px;
+    color: var(--sidebar-text-muted);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-radius: 0 30px 30px 0;
+    margin-right: 20px;
+    font-weight: 400; 
+}
+
+
+.menu-item i.sidebar-icon {
+    width: 24px;
+    font-size: 22px; 
+    margin-right: 12px;
+    text-align: center;
+    transition: transform 0.2s;
+    opacity: 0.9;
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+}
+
+
+.brand-icon i {
+    font-size: 28px; /* Iya lo eliminamos */
+}
+
+.menu-item span {
+    font-size: 14px;
+    letter-spacing: 0.3px;
+}
+
+/* Estados Hover y Activo */
+.menu-item:hover {
+    background-color: var(--sidebar-hover);
+    color: white;
+    padding-left: 35px;
+}
+
+.menu-item:hover i.sidebar-icon {
+    transform: scale(1.1);
+    opacity: 1;
+    color: white;
+}
+
+.menu-item.active {
+    background-color: var(--sidebar-hover);
+    color: white;
+    font-weight: 500;
+    border-left: 3px solid var(--sidebar-accent);
+}
+
+.menu-item.active i.sidebar-icon {
+    color: var(--sidebar-accent);
+    opacity: 1;
+}
+
+/* --- Footer --- */
+.sidebar-footer {
+    padding: 25px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.logout-link {
+    color: #ff8a80 !important; 
+    border-radius: 8px; 
+    margin-right: 0;
+}
+
+.logout-link:hover {
+    background-color: rgba(255, 82, 82, 0.1);
+    padding-left: 25px; 
+}
+
+
+.sidebar-menu::-webkit-scrollbar {
+    width: 4px;
+}
+.sidebar-menu::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.2);
+    border-radius: 2px;
+}
+
+
+/* Ajuste Responsive */
+@media (max-width: 768px) {
+    .admin-sidebar {
+        transform: translateX(-100%);
+    }
+    .admin-sidebar.active {
+        transform: translateX(0);
+    }
+}
+
+
+
+
+/* Aseguramos que el texto del header sea blanco */
+.header-title h1 {
+    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300; /* Letra fina */
+    font-size: 20px;
+    margin: 0;
+}
+
+/* Contenedor de iconos a la derecha */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 25px; /* Separación entre la campana y el usuario */
+}
+
+/* Estilo de los Iconos (Campana y Usuario) */
+.header-actions i {
+    font-size: 24px;
+    color: #ffffff; /* Iconos Blancos */
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.header-actions i:hover {
+    opacity: 0.7; /* Efecto sutil al pasar el mouse */
+}
+
+/* Ajuste para la burbuja de notificaciones (Badge) */
+.notification-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #ff4444; /* Rojo para la alerta */
+    color: white;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: bold;
+    border: 1px solid #000; /* Borde negro para que se separe del icono */
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--admin-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+}
+
+.user-name {
+    font-weight: 600;
+    color: var(--admin-text);
+}
+
+
+
+/* =====================================
+   CARDS Y COMPONENTES
+   ===================================== */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+.stat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.stat-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: white;
+}
+
+.stat-icon.blue { background: var(--admin-accent); }
+.stat-icon.green { background: var(--admin-success); }
+.stat-icon.orange { background: var(--admin-warning); }
+.stat-icon.red { background: var(--admin-danger); }
+
+.stat-value {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--admin-primary);
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    font-size: 14px;
+    color: #7f8c8d;
+    font-weight: 500;
+}
+
+.content-card {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    margin-bottom: 30px;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--admin-bg);
+}
+
+.card-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--admin-primary);
+}
+
+/* =====================================
+   BOTONES
+   ===================================== */
+
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+}
+
+.btn-primary {
+    background: var(--admin-accent);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #383939;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(71, 72, 72, 0.3);
+}
+
+.btn-success {
+    background: var(--admin-success);
+    color: white;
+}
+
+.btn-success:hover {
+    background: #27ae60;
+}
+
+.btn-warning {
+    background: var(--admin-warning);
+    color: white;
+}
+
+.btn-warning:hover {
+    background: #e67e22;
+}
+
+.btn-danger {
+    background: var(--admin-danger);
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #c0392b;
+}
+
+.btn-secondary {
+    background: var(--admin-border);
+    color: var(--admin-text);
+}
+
+.btn-secondary:hover {
+    background: #95a5a6;
+}
+
+/* =====================================
+   TABLAS
+   ===================================== */
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-table thead {
+    background: var(--admin-bg);
+}
+
+.admin-table th {
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+    color: var(--admin-primary);
+    font-size: 14px;
+}
+
+.admin-table td {
+    padding: 15px;
+    border-bottom: 1px solid var(--admin-bg);
+}
+
+.admin-table tr:hover {
+    background: #f8f9fa;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-icon {
+    padding: 8px 12px;
+    font-size: 16px;
+}
+
+/* =====================================
+   FORMULARIOS
+   ===================================== */
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--admin-primary);
+    font-size: 14px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid var(--admin-border);
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--admin-accent);
+}
+
+.form-control.error {
+    border-color: var(--admin-danger);
+}
+
+.form-error {
+    color: var(--admin-danger);
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+/* =====================================
+   RESPONSIVE
+   ===================================== */
+
+@media (max-width: 768px) {
+    .admin-sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+    }
+    
+    .admin-sidebar.active {
+        transform: translateX(0);
+    }
+    
+    .admin-content {
+        margin-left: 0;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .main-content {
+        padding: 20px;
+    }
+}
+
+/* =====================================
+   LOADER
+   ===================================== */
+
+.admin-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255,255,255,0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.loader-spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid var(--admin-bg);
+    border-top-color: var(--admin-accent);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* =====================================
+   MODAL OVERLAY (DEBE ESTAR SOBRE EL SIDEBAR)
+   ===================================== */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000 !important; /* SOBRE TODO: sidebar (2000) y loader (9999) */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay.active {
+    display: flex;
+    opacity: 1;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    max-width: 600px;
+    width: 90%;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 10001;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.modal-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--admin-primary);
+    margin: 0;
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    font-size: 32px;
+    color: #999;
+    cursor: pointer;
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.close-modal:hover {
+    background: #f5f5f5;
+    color: #333;
+}
+
+
+/* =====================================
+   LAYOUT FLOTANTE "BENTO" - CORRECCIÓN DEFINITIVA
+   ===================================== */
+
+/* 1. SIDEBAR (Flotando a la izquierda) */
+.admin-sidebar {
+    position: fixed !important; /* Fijo a la pantalla */
+    top: 20px;
+    left: 20px;
+    width: 260px;
+    height: calc(100vh - 40px); /* Altura completa menos márgenes */
+    background-color: #000000;
+    color: white;
+    border-radius: 20px;
+    z-index: 2000; /* Siempre encima de todo */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* 2. HEADER (Flotando arriba a la derecha) */
+.admin-header {
+    position: fixed !important;
+    top: 20px;
+    /* Izquierda: 20px (borde) + 260px (sidebar) + 20px (espacio) = 300px */
+    left: 300px !important; 
+    right: 20px !important; /* Pegado a la derecha con margen */
+    height: 80px; /* Altura fija */
+    background-color: #000000;
+    color: white;
+    border-radius: 15px;
+    z-index: 1500; /* Debajo del sidebar si chocan, encima del contenido */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    width: auto !important; /* Deja que left/right definan el ancho */
+}
+
+/* 3. CONTENEDOR PRINCIPAL (El fondo blanco detrás) */
+.admin-content {
+    /* Esto empuja TODO el bloque blanco a la derecha */
+    margin-left: 300px !important; 
+    
+    /* Esto asegura que no se desborde a la derecha */
+    width: calc(100% - 320px) !important; /* 100% - 300px (izq) - 20px (der) */
+    
+    margin-right: 20px !important;
+    min-height: 100vh;
+    background-color: #ffffff; /* Color de fondo de la sección derecha */
+    position: relative;
+    z-index: 1;
+}
+
+/* 4. CONTENIDO INTERNO (Para no quedar oculto tras el header) */
+.main-content {
+    /* Bajamos el contenido: 80px (header) + 20px (top) + 30px (aire) */
+    padding-top: 130px !important; 
+    padding-bottom: 40px;
+}
+
+/* Ajuste para pantallas pequeñas (Móvil/Tablet) */
+@media (max-width: 992px) {
+    .admin-sidebar {
+        left: -280px; /* Ocultar sidebar */
+        transition: left 0.3s ease;
+    }
+    .admin-sidebar.active {
+        left: 20px; /* Mostrar al activar */
+    }
+    .admin-header {
+        left: 20px !important; /* Header ocupa todo el ancho */
+    }
+    .admin-content {
+        margin-left: 20px !important; /* Contenido ocupa todo el ancho */
+        width: calc(100% - 40px) !important;
+    }
+}
+
+/* =====================================
+   MODALES
+   ===================================== */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000; /* Por encima del sidebar (z-index: 2000) */
+    padding: 20px;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 15px;
+    width: 100%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 30px;
+    border-bottom: 2px solid var(--admin-bg);
+}
+
+.modal-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--admin-primary);
+    margin: 0;
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    font-size: 32px;
+    color: #95a5a6;
+    cursor: pointer;
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.close-modal:hover {
+    background: var(--admin-bg);
+    color: var(--admin-danger);
+}
+
+.modal-content form {
+    padding: 30px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid var(--admin-bg);
+}
+
+/* Badge para destacado */
+.badge {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.badge.active {
+    background: #ffeaa7;
+    color: #d63031;
+}
+/* =====================================
+   ESTILOS GLOBALES ADMIN 
+   ===================================== */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --sidebar-bg: #000000;         
+    --sidebar-text: #ffffff;       
+    --sidebar-text-muted: #f9f7f7; 
+    --sidebar-hover: #1a1a1a;      
+    --sidebar-accent: #536dfe;     
+    --admin-bg: #f4f6f9;          
+    --admin-text: #333333;        
+    --admin-primary: #000000;     
+    --admin-border: #e0e0e0;
+    --admin-success: #27ae60;
+    --admin-warning: #f1c40f;
+    --admin-danger: #e74c3c;
+    --admin-accent: #3498db;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body.admin-page {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--admin-bg);
+    color: var(--admin-text);
+    line-height: 1.6;
+    font-size: 14px; 
+}
+
+/* --- SIDEBAR Y HEADER FLOTANTES --- */
+.admin-sidebar {
+    position: fixed !important;
+    top: 20px; left: 20px; width: 260px; height: calc(100vh - 40px);
+    background-color: #000000; color: white; border-radius: 20px;
+    z-index: 2000; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    display: flex; flex-direction: column; overflow: hidden;
+}
+
+.admin-header {
+    position: fixed !important;
+    top: 20px; left: 300px !important; right: 20px !important;
+    height: 80px; background-color: #000000; color: white;
+    border-radius: 15px; z-index: 1500;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    width: auto !important;
+}
+
+.admin-content {
+    margin-left: 300px !important;
+    width: calc(100% - 320px) !important;
+    margin-right: 20px !important;
+    min-height: 100vh; background-color: #ffffff;
+    position: relative; z-index: 1;
+}
+
+.main-content { padding-top: 130px !important; padding-bottom: 40px; }
+
+/* --- HEADER ELEMENTS --- */
+.header-title h1 { color: #ffffff; font-weight: 300; font-size: 20px; margin: 0; }
+.header-actions { display: flex; align-items: center; gap: 25px; }
+.header-actions i { font-size: 24px; color: #ffffff; cursor: pointer; transition: opacity 0.3s ease; }
+.header-actions i:hover { opacity: 0.7; }
+
+.notification-icon { position: relative; display: flex; align-items: center; }
+.notification-badge {
+    position: absolute; top: -5px; right: -5px;
+    background: #ff4444; color: white; border-radius: 50%;
+    width: 16px; height: 16px; display: flex;
+    align-items: center; justify-content: center;
+    font-size: 10px; font-weight: bold; border: 1px solid #000;
+}
+
+/* --- SIDEBAR INTERNALS --- */
+.sidebar-header { padding: 30px 25px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.brand-text h2 { font-size: 18px; font-weight: 600; color: white; margin: 0; }
+.sidebar-menu { flex: 1; padding: 25px 0; overflow-y: auto; }
+.sidebar-menu ul { list-style: none; }
+.sidebar-menu li { margin-bottom: 8px; }
+.menu-section-label { padding: 20px 30px 10px; font-size: 11px; text-transform: uppercase; color: rgba(255,255,255,0.3); }
+
+.menu-item {
+    display: flex; align-items: center; padding: 14px 30px;
+    color: var(--sidebar-text-muted); text-decoration: none;
+    transition: all 0.3s ease; border-radius: 0 30px 30px 0;
+    margin-right: 20px; font-weight: 400;
+}
+.menu-item i.sidebar-icon { width: 24px; font-size: 22px; margin-right: 12px; text-align: center; }
+.menu-item:hover, .menu-item.active { background-color: var(--sidebar-hover); color: white; }
+.menu-item.active { border-left: 3px solid var(--sidebar-accent); }
+.menu-item.active i.sidebar-icon { color: var(--sidebar-accent); }
+.sidebar-footer { padding: 25px; border-top: 1px solid rgba(255,255,255,0.05); }
+.logout-link { color: #ff8a80 !important; }
+
+/* --- LOADER --- */
+.admin-loader {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(255,255,255,0.9);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 9999;
+}
+.loader-spinner {
+    width: 60px; height: 60px; border: 4px solid var(--admin-bg);
+    border-top-color: var(--admin-accent); border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* =====================================
+   MENÚ DE NOTIFICACIONES (ESTILO DARK)
+   ===================================== */
+
+.notification-menu {
+    width: 360px; /* Un poco más ancho para leer mejor */
+    right: 70px !important; /* Alineado con la campana */
+    max-height: 450px;
+    overflow-y: auto;
+    padding: 0 !important;
+
+    /* --- ESTILO OSCURO (Igual al usuario) --- */
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    border-radius: 8px;
+    color: #f0f0f0;
+    z-index: 2000;
+}
+
+/* Cabecera del menú (Fija arriba) */
+.notification-menu .profile-menu-header {
+    padding: 15px 20px;
+    background-color: #1a1a1a;
+    border-bottom: 1px solid #333;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Título "Notificaciones" */
+.notification-menu .profile-menu-name {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Enlace "Ver todas" */
+.notification-menu a {
+    font-size: 11px;
+    color: #B8860B; /* Dorado */
+    text-decoration: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: color 0.3s;
+}
+
+.notification-menu a:hover {
+    color: #d4af37;
+    text-decoration: underline;
+}
+
+/* Lista de items */
+.notification-list {
+    padding: 0;
+}
+
+/* Cada Notificación */
+.notification-item {
+    padding: 15px 20px;
+    border-bottom: 1px solid #2a2a2a; /* Separador sutil */
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+}
+
+.notification-item:last-child {
+    border-bottom: none;
+}
+
+.notification-item:hover {
+    background-color: #252525; /* Un poco más claro al pasar el mouse */
+}
+
+/* Notificación NO LEÍDA */
+.notification-item.unread {
+    background-color: rgba(184, 134, 11, 0.08); /* Fondo dorado muy sutil */
+    border-left: 3px solid #B8860B; /* Borde izquierdo dorado */
+}
+
+/* Icono Circular */
+.notif-icon-box {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 14px;
+    background-color: #333; /* Fondo del icono */
+    color: #fff;
+}
+
+/* Colores de iconos según tipo */
+.notif-icon-box.info { color: #3498db; }    /* Azul */
+.notif-icon-box.success { color: #2ecc71; } /* Verde */
+.notif-icon-box.warning { color: #f1c40f; } /* Amarillo */
+.notif-icon-box.error { color: #e74c3c; }   /* Rojo */
+
+/* Contenido de texto */
+.notif-info {
+    flex: 1;
+}
+
+.notif-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+    align-items: center;
+}
+
+.notif-title {
+    font-weight: 600;
+    font-size: 13px;
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.notif-time {
+    font-size: 10px;
+    color: #888;
+    white-space: nowrap;
+}
+
+.notif-desc {
+    font-size: 12px;
+    color: #ccc; /* Gris claro */
+    line-height: 1.4;
+    font-family: 'Lato', sans-serif;
+}
+
+/* Estado vacío */
+.empty-notif {
+    padding: 40px 20px;
+    text-align: center;
+    color: #666;
+    font-size: 13px;
+    font-style: italic;
+}
+
+/* Scrollbar personalizado oscuro */
+.notification-menu::-webkit-scrollbar {
+    width: 6px;
+}
+
+.notification-menu::-webkit-scrollbar-track {
+    background: #1a1a1a;
+}
+
+.notification-menu::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 3px;
+}
+
+.notification-menu::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}

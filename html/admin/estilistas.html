@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Estilistas - Panel Administrativo</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <link rel="stylesheet" href="../../Css/admin/admin-global.css">
+    <link rel="stylesheet" href="../../Css/modals/profile_menu.css">
+    <link rel="stylesheet" href="../../Css/modals/custom-modal.css">
+
+    <link rel="stylesheet" href="../../Css/admin/estilistas.css">
+</head>
+<body class="admin-page">
+    
+    <div id="sidebarContainer"></div>
+    
+    <div class="admin-content">
+        
+        <header class="admin-header">
+            <div class="header-title">
+                <h1>Gestión de Estilistas</h1>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-primary" id="btnNuevoEstilista" style="margin-left: 15px;">
+                    <i class="fas fa-user-plus"></i> Nuevo Estilista
+                </button>
+            </div>
+        </header>
+        
+        <main class="main-content">
+            
+            <div class="content-card">
+                <div class="search-flex">
+                    <div class="search-group">
+                        <label for="searchInput" class="label-text">Buscar</label>
+                        <div class="search-wrapper">
+                            <input type="text" id="searchInput" placeholder="Buscar estilista por nombre...">
+                            <button type="button">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="search-group" style="margin-left: 16px;">
+                        <label for="activoFilter" class="label-text">Estado</label>
+                        <div class="search-wrapper">
+                            <select id="activoFilter" style="padding:8px; border-radius:6px; border:1px solid #ddd;">
+                                <option value="all">Todos</option>
+                                <option value="activo">Activos</option>
+                                <option value="inactivo">Inactivos</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="content-card">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Avatar</th>
+                            <th>Nombre</th>
+                            <th>Especialidades</th>
+                            <th>Teléfono</th>
+                            <th>Email</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="estilistasTableBody">
+                        </tbody>
+                </table>
+                
+                <div id="emptyState" style="display: none; text-align: center; padding: 40px;">
+                    <i class="fas fa-users" style="font-size: 48px; color: #bdc3c7; margin-bottom: 15px;"></i>
+                    <p style="color: #7f8c8d;">No se encontraron estilistas</p>
+                </div>
+            </div>
+            
+        </main>
+    </div>
+
+    <div id="notificationMenu" class="profile-menu-modal notification-menu" style="display: none;">
+        <div class="profile-menu-header">
+            <span class="profile-menu-name">Notificaciones</span>
+            <a href="#" title="Notificaciones eliminadas">Ver todas</a>
+        </div>
+        <div class="notification-list" id="notificationList"></div>
+    </div>
+
+    <div id="profileMenuModal" class="profile-menu-modal">
+        <div class="profile-menu-header">
+            <div class="profile-menu-avatar"></div>
+            <span class="profile-menu-name" id="menuUserName">Cargando...</span>
+        </div>
+        <nav class="profile-menu-nav">
+            <ul><li><a href="#" id="headerLogoutBtn" style="color: #ff6b6b;">Cerrar sesión</a></li></ul>
+        </nav>
+    </div>
+    
+    <div class="modal-overlay" id="modalEstilista">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">Gestionar Estilista</h2>
+                <button class="close-modal" onclick="closeModal()">&times;</button>
+            </div>
+            
+            <form id="formEstilista">
+                <input type="hidden" id="estilistaId">
+                <input type="hidden" id="usuarioId"> <h3 style="margin-bottom: 15px; color: #000;">1. Vincular Usuario</h3>
+                
+                <div class="form-row" style="align-items: flex-end;">
+                    <div class="form-group" style="flex: 1;">
+                        <label class="form-label">Teléfono del Usuario *</label>
+                        <div style="display: flex; gap: 10px;">
+                            <input type="tel" class="form-control" id="telefonoEstilista" placeholder="Ingrese teléfono registrado" required>
+                            <button type="button" class="btn btn-warning" id="btnVerificarUsuario">
+                                <i class="fas fa-search"></i> Verificar
+                            </button>
+                        </div>
+                        <small id="msgUsuarioEncontrado" style="display: none; margin-top: 5px; font-weight: 600;"></small>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Nombre (Automático)</label>
+                        <input type="text" class="form-control" id="nombreEstilista" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Email (Automático)</label>
+                        <input type="email" class="form-control" id="emailEstilista" readonly>
+                    </div>
+                </div>
+                
+                <h3 style="margin: 25px 0 15px; color: #000;">2. Perfil Profesional</h3>
+
+                <div class="form-group">
+                    <label class="form-label">Especialidad / Puesto *</label>
+                    <input type="text" class="form-control" id="especialidadesEstilista" placeholder="Ej: Estilista Senior, Colorista" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Servicios que ofrece</label>
+                    <select multiple class="form-control" id="serviciosEstilista" style="height: 140px;">
+                        </select>
+                    <small style="color: #ff9800; font-size: 12px; margin-top: 5px; display: block; font-weight: 500;">
+                        <i class="fas fa-info-circle"></i> Haz clic para seleccionar. Mantén Ctrl (Win) o Cmd (Mac) para varios.
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">URL de Foto de Perfil</label>
+                    <input type="url" class="form-control" id="avatarEstilista" placeholder="https://...">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Biografía / Descripción</label>
+                    <textarea class="form-control" id="biografiaEstilista" rows="3" placeholder="Breve descripción profesional..."></textarea>
+                </div>
+                
+                <h3 style="margin: 25px 0 15px; color: #000;">3. Horario de Disponibilidad</h3>
+                
+                <div class="schedule-grid">
+                    <div class="day-schedule" data-day="lunes">
+                        <div class="day-name">Lunes</div>
+                        <label><input type="checkbox" class="day-checkbox"> Disponible</label>
+                        <div class="time-inputs" style="display: none;">
+                            <input type="time" class="hora-inicio" value="09:00">
+                            <span>a</span>
+                            <input type="time" class="hora-fin" value="18:00">
+                        </div>
+                    </div>
+                    
+                    <div class="day-schedule" data-day="martes">
+                        <div class="day-name">Martes</div>
+                        <label><input type="checkbox" class="day-checkbox"> Disponible</label>
+                        <div class="time-inputs" style="display: none;">
+                            <input type="time" class="hora-inicio" value="09:00">
+                            <span>a</span>
+                            <input type="time" class="hora-fin" value="18:00">
+                        </div>
+                    </div>
+                    
+                    <div class="day-schedule" data-day="miercoles">
+                        <div class="day-name">Miércoles</div>
+                        <label><input type="checkbox" class="day-checkbox"> Disponible</label>
+                        <div class="time-inputs" style="display: none;">
+                            <input type="time" class="hora-inicio" value="09:00">
+                            <span>a</span>
+                            <input type="time" class="hora-fin" value="18:00">
+                        </div>
+                    </div>
+                    
+                    <div class="day-schedule" data-day="jueves">
+                        <div class="day-name">Jueves</div>
+                        <label><input type="checkbox" class="day-checkbox"> Disponible</label>
+                        <div class="time-inputs" style="display: none;">
+                            <input type="time" class="hora-inicio" value="09:00">
+                            <span>a</span>
+                            <input type="time" class="hora-fin" value="18:00">
+                        </div>
+                    </div>
+                    
+                    <div class="day-schedule" data-day="viernes">
+                        <div class="day-name">Viernes</div>
+                        <label><input type="checkbox" class="day-checkbox"> Disponible</label>
+                        <div class="time-inputs" style="display: none;">
+                            <input type="time" class="hora-inicio" value="09:00">
+                            <span>a</span>
+                            <input type="time" class="hora-fin" value="18:00">
+                        </div>
+                    </div>
+                    
+                    <div class="day-schedule" data-day="sabado">
+                        <div class="day-name">Sábado</div>
+                        <label><input type="checkbox" class="day-checkbox"> Disponible</label>
+                        <div class="time-inputs" style="display: none;">
+                            <input type="time" class="hora-inicio" value="09:00">
+                            <span>a</span>
+                            <input type="time" class="hora-fin" value="14:00">
+                        </div>
+                    </div>
+                    
+                    <div class="day-schedule" data-day="domingo">
+                        <div class="day-name">Domingo</div>
+                        <label><input type="checkbox" class="day-checkbox"> Disponible</label>
+                        <div class="time-inputs" style="display: none;">
+                            <input type="time" class="hora-inicio" value="10:00">
+                            <span>a</span>
+                            <input type="time" class="hora-fin" value="14:00">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-actions" style="margin-top: 30px;">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary" id="btnGuardarEstilista" disabled>
+                        <i class="fas fa-save"></i> Guardar Estilista
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="admin-loader" id="loader" style="display: none;">
+        <div class="loader-spinner"></div>
+    </div>
+    
+    <script src="../../config/api.config.js"></script>
+    <script src="../../services/http.service.js"></script>
+    <script src="../../services/auth.service.js"></script>
+    <script src="../../services/estilistas.service.js"></script>
+    <script src="../../services/horarios.service.js"></script>
+    <script src="../../services/servicios.service.js"></script>
+    <script src="../../services/empleados.service.js"></script>
+    <script src="../../services/usuarios.service.js"></script>
+    <script src="../../services/notificaciones.service.js"></script>
+    <script src="../../utils/error-handler.js"></script>
+    <script src="../../utils/state-manager.js"></script>
+    <script src="../../utils/custom-modal.js"></script>
+
+    <script src="../../js/admin/estilistas.js"></script>
+    <script src="../../js/admin/dashboard.js"></script>
+    
+    <script>
+        // Cargar Sidebar
+      fetch('_sidebar.html')
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById('sidebarContainer').innerHTML = html;
+            
+            // --- LÓGICA DEL BOTÓN CERRAR SESIÓN DEL SIDEBAR ---
+            const sidebarLogoutBtn = document.getElementById('logoutBtn'); // ID que está en _sidebar.html
+            
+            if (sidebarLogoutBtn) {
+                sidebarLogoutBtn.addEventListener('click', async function(e) {
+                    e.preventDefault();
+                    
+                    // Usamos el mismo modal personalizado que en el header
+                    const confirmed = await customConfirm(
+                        '¿Estás seguro de que deseas cerrar sesión?', 
+                        'Cerrar Sesión', 
+                        { icon: 'ph-sign-out' }
+                    );
+
+                    if (confirmed) {
+                        await AuthService.logout();
+                        window.location.href = '../inicio.html';
+                    }
+                });
+            }
+            
+            // Marcar activo el item del menú actual (Lógica visual)
+            const path = window.location.pathname;
+            const page = path.split('/').pop().replace('.html', '') || 'dashboard';
+            const menuItems = document.querySelectorAll('.menu-item');
+            menuItems.forEach(item => {
+                if (item.getAttribute('data-page') === page) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+    // Funciones globales de modales (si las necesitas aquí)
+    function closeModal() {
+        const modal = document.querySelector('.modal-overlay.active');
+        if(modal) modal.classList.remove('active');
+    }
+        
+        // Inicialización de checkboxes (Respaldo visual)
+        document.addEventListener('DOMContentLoaded', () => {
+             document.querySelectorAll('.day-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const daySchedule = this.closest('.day-schedule');
+                    const timeInputs = daySchedule.querySelector('.time-inputs');
+                    if (this.checked) {
+                        daySchedule.classList.add('active');
+                        timeInputs.style.display = 'flex';
+                    } else {
+                        daySchedule.classList.remove('active');
+                        timeInputs.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+    
+</body>
+</html>

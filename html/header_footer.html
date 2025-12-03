@@ -1,0 +1,55 @@
+<!-- Header Template -->
+<template id="header-template">
+    <header class="main-header three-level-nav">
+        <div class="header-level-2">
+            <div class="logo">GLAMSOFT</div>
+            <div class="header-right">
+                <div class="notification-icon-container">
+                    <i class="fas fa-bell nav-icon"></i>
+                    <span class="notification-badge" id="notificationBadge" style="display: none;">0</span>
+                </div>
+                <a href="#" class="auth-trigger" data-target="#">
+                    <i class="fas fa-user nav-icon"></i>
+                </a>
+                <!-- ✅ BOTÓN PARA VOLVER AL PANEL (Solo visible para Admin/Estilista) -->
+                <a href="#" id="btnVolverPanel" class="btn-panel" style="display: none;">
+                    <i class="fas fa-th-large"></i> MI PANEL
+                </a>
+                <!-- ✅ NUEVO BOTÓN AGENDAR -->
+                <a href="agendar.html" class="btn-agendar">AGENDAR</a>
+            </div>
+        </div>
+        <div class="header-level-3">
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="inicio.html">INICIO</a></li>
+                    <li><a href="servicios.html">SERVICIOS</a></li>
+                    <li><a href="promocion.html">PROMOCIONES</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+</template>
+
+<!-- Footer Template -->
+<template id="footer-template">
+    <footer class="main-footer">
+        <div class="footer-grid">
+            <div class="contact-info">
+                <h3>Contacto</h3>
+                <p>Dirección: 123 Calle Principal, Ciudad</p>
+                <p>Teléfono: +1 234 567 890</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                </div>
+            </div>
+            <div class="schedule-info">
+                <h3>Horario de atención</h3>
+                <p>Lunes a Viernes: 8:00 am - 6:00 pm</p>
+                <p>Sábados: 9:00 am - 1:00 pm</p>
+            </div>
+        </div>
+    </footer>
+</template>

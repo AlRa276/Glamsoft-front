@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Agenda - Panel de Estilista</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- Estilos -->
+    <link rel="stylesheet" href="../../Css/admin/admin-global.css">
+     <!-- La nueva para los iconos-->
+      <link rel="stylesheet" href="../../Css/modals/custom-modal.css">
+
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <style>
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .calendar-nav {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .calendar-nav button {
+            background: var(--admin-accent);
+            color: rgb(35, 33, 33);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+        
+        .calendar-nav button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(83, 109, 254, 0.3);
+        }
+        
+        .calendar-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--admin-primary);
+            min-width: 300px;
+            text-align: center;
+        }
+        
+        .view-switcher {
+            display: flex;
+            gap: 5px;
+            background: #f0f0f0;
+            padding: 4px;
+            border-radius: 8px;
+        }
+        
+        .view-btn {
+            padding: 8px 16px;
+            border: none;
+            background: transparent;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+        
+        .view-btn.active {
+            background: var(--admin-accent);
+            color: white;
+        }
+        
+        .view-btn:hover:not(.active) {
+            background: rgba(83, 109, 254, 0.1);
+            color: var(--admin-accent);
+        }
+        
+        .calendar-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: 100px repeat(7, 1fr);
+            gap: 1px;
+            background: #ecf0f1;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .calendar-header-cell {
+            background: var(--admin-primary);
+            color: white;
+            padding: 20px 10px;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .calendar-time-cell {
+            background: white;
+            padding: 15px 10px;
+            text-align: center;
+            font-size: 14px;
+            color: #7f8c8d;
+            font-weight: 600;
+        }
+        
+        .calendar-cell {
+            background: white;
+            min-height: 100px;
+            padding: 8px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .calendar-cell:hover {
+            background: #f8f9fa;
+        }
+        
+        .appointment-card {
+            background: #9b59b6;
+            color: white;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 5px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .appointment-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        
+        .appointment-card.pendiente {
+            background: #9b59b6; /* Morado */
+        }
+        
+        .appointment-card.confirmada {
+            background: #27ae60; /* Verde */
+        }
+        
+        .appointment-card.cancelada {
+            background: #e74c3c; /* Rojo */
+        }
+        
+        .appointment-card.completada {
+            background: #3498db; /* Azul */
+        }
+        
+        .appointment-client {
+            font-weight: bold;
+            margin-bottom: 3px;
+            font-size: 13px;
+        }
+        
+        .appointment-service {
+            font-size: 11px;
+            opacity: 0.9;
+        }
+        
+        .legend {
+            display: flex;
+            gap: 25px;
+            margin-top: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: #2c3e50;
+        }
+        
+        .legend-color {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .legend-color.pendiente {
+            background: #9b59b6;
+        }
+        
+        .legend-color.confirmada {
+            background: #27ae60;
+        }
+        
+        .legend-color.cancelada {
+            background: #e74c3c;
+        }
+        
+        .legend-color.completada {
+            background: #3498db;
+        }
+    </style>
+</head>
+<body class="admin-page">
+    
+    <!-- Sidebar -->
+    <div id="sidebarContainer"></div>
+    
+    <!-- Contenido Principal -->
+    <div class="admin-content">
+        
+        <!-- Header -->
+        <header class="admin-header">
+            <div class="header-title">
+                <h1>Mi Agenda</h1>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-primary" id="btnNuevaCita">
+                    <i class="fas fa-plus"></i> Nueva Cita
+                </button>
+            </div>
+        </header>
+        
+        <!-- Contenido -->
+        <main class="main-content">
+            
+            <!-- Navegación del Calendario -->
+            <div class="calendar-header">
+                <div class="calendar-nav">
+                    <button id="prevWeek" title="Semana anterior">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <h2 class="calendar-title" id="calendarTitle">Semana del 21 - 27 Nov 2025</h2>
+                    <button id="nextWeek" title="Semana siguiente">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                
+                <div class="calendar-actions">
+                    <button class="btn btn-secondary" id="todayBtn">
+                        <i class="fas fa-calendar-day"></i> Hoy
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Grid del Calendario -->
+            <div class="content-card" style="padding: 0; overflow-x: auto;">
+                <div class="calendar-grid" id="calendarGrid">
+                    <!-- Se llena dinámicamente -->
+                </div>
+            </div>
+            
+            <!-- Leyenda -->
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color pendiente"></div>
+                    <span>Pendiente</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color confirmada"></div>
+                    <span>Confirmada</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color cancelada"></div>
+                    <span>Cancelada</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color completada"></div>
+                    <span>Completada</span>
+                </div>
+            </div>
+            
+        </main>
+        
+    </div>
+    
+    <!-- Modal Detalle de Cita -->
+    <div class="modal-overlay" id="modalCita">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">Detalle de Cita</h2>
+                <button class="close-modal" onclick="closeModal()">&times;</button>
+            </div>
+            
+            <div id="citaDetalle">
+                <!-- Se llena dinámicamente -->
+            </div>
+            
+            <div class="form-actions">
+                <button type="button" class="btn btn-success" id="btnConfirmar">
+                    <i class="fas fa-check"></i> Confirmar
+                </button>
+                <button type="button" class="btn btn-danger" id="btnCancelar">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Loader -->
+    <div class="admin-loader" id="loader" style="display: none;">
+        <div class="loader-spinner"></div>
+    </div>
+
+    <!-- Scripts --><script src="../../config/api.config.js"></script>
+    <script src="../../services/http.service.js"></script>
+    <script src="../../services/auth.service.js"></script>
+    <script src="../../services/empleados.service.js"></script>
+    <script src="../../services/estilistas.service.js"></script>
+    <script src="../../services/horarios.service.js"></script>
+    <script src="../../services/citas.service.js"></script>
+    <script src="../../services/notificaciones.service.js"></script>
+    <script src="../../utils/error-handler.js"></script>
+    <script src="../../utils/state-manager.js"></script>
+    <script src="../../utils/custom-modal.js"></script> <script src="../../js/estilista/calendario.js"></script>
+    
+    <script>
+    // --- 1. Funciones Globales de Modales ---
+    // Cierra cualquier modal activo (funciona para todas las vistas)
+    function closeModal() {
+        const activeModals = document.querySelectorAll('.modal-overlay.active');
+        activeModals.forEach(modal => modal.classList.remove('active'));
+    }
+
+    // --- 2. Carga del Sidebar y Lógica de Logout ---
+    fetch('_sidebar.html')
+        .then(response => response.text())
+        .then(html => {
+            // Inyectar el sidebar
+            document.getElementById('sidebarContainer').innerHTML = html;
+
+            // A) Marcar la opción activa en el menú
+            const path = window.location.pathname;
+            const page = path.split('/').pop().replace('.html', '') || 'dashboard';
+            const menuItems = document.querySelectorAll('.menu-item');
+            menuItems.forEach(item => {
+                if (item.getAttribute('data-page') === page) {
+                    item.classList.add('active');
+                }
+            });
+
+            // B) Lógica del Botón Cerrar Sesión (Estilo Dashboard)
+            const sidebarLogoutBtn = document.getElementById('logoutBtn');
+            
+            if (sidebarLogoutBtn) {
+                sidebarLogoutBtn.addEventListener('click', async (e) => {
+                    e.preventDefault();
+
+                    // Usar el modal personalizado (customConfirm) para mantener el estilo
+                    if (typeof customConfirm !== 'undefined' && typeof AuthService !== 'undefined') {
+                        const confirmed = await customConfirm(
+                            '¿Estás seguro de que deseas cerrar sesión?',
+                            'Cerrar Sesión',
+                            { icon: 'ph-sign-out' }
+                        );
+
+                        if (confirmed) {
+                            await AuthService.logout();
+                            window.location.href = '../inicio.html';
+                        }
+                    } else {
+                        // Fallback por seguridad si falla la carga de scripts
+                        if (confirm('¿Cerrar sesión?')) {
+                            window.location.href = '../inicio.html';
+                        }
+                    }
+                });
+            }
+        })
+        .catch(error => console.error('Error cargando el sidebar:', error));
+</script>
+</body>
+</html>

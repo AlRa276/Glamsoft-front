@@ -1,0 +1,106 @@
+/* --- ESTILOS DEL MODAL DE CONFIRMACIÓN --- */
+
+.modal-overlay-valorar {
+    display: none; /* Oculto por defecto */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* ESTA ES LA CORRECCIÓN CLAVE */
+.modal-overlay-valorar.visible {
+    display: flex; /* Ahora sí se muestra */
+    opacity: 1;
+}
+
+.modal-content-valorar {
+    background-color: #1a1a1a;
+    color: #f0f0f0;
+    padding: 2.5rem;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 450px;
+    text-align: center;
+    position: relative;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+
+.modal-overlay-valorar.visible .modal-content-valorar {
+    transform: scale(1);
+}
+
+.close-btn-valorar {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 1.8rem;
+    color: #aaa;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.close-btn-valorar:hover {
+    color: #fff;
+}
+
+.modal-content-valorar h2 {
+    font-family: 'GFS Didot', serif;
+    font-size: 1.8rem;
+    font-weight: 400;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+}
+
+.modal-content-valorar p {
+    font-family: 'Lato', sans-serif;
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    color: #ccc;
+}
+
+.modal-buttons-valorar {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.modal-buttons-valorar button {
+    border: none;
+    padding: 0.7rem 1rem;
+    border-radius: 4px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    min-width: 100px;
+    transition: all 0.2s ease;
+}
+
+.btn-modal-no {
+    background-color: #444;
+    color: #f0f0f0;
+}
+
+.btn-modal-no:hover {
+    background-color: #555;
+}
+
+.btn-modal-si {
+    background-color: #f0f0f0;
+    color: #1a1a1a;
+}
+
+.btn-modal-si:hover {
+    background-color: #fff;
+    transform: translateY(-2px);
+}

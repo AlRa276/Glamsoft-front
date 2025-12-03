@@ -1,0 +1,119 @@
+<!-- ==========================================
+     📁 modals/auth_menu.html
+     MENÚ PARA USUARIOS NO LOGUEADOS
+     ========================================== -->
+<!-- Guardar como: modals/auth_menu.html -->
+
+<div id="authMenuModal" class="profile-menu-modal auth-menu-modal">
+    <div class="profile-menu-content">
+        <!-- Header del Menú -->
+        <div class="auth-menu-header">
+            <div class="auth-icon">
+                <i class="fas fa-user-circle"></i>
+            </div>
+            <div class="auth-info">
+                <h3>¡Bienvenido!</h3>
+                <p>Inicia sesión o crea una cuenta</p>
+            </div>
+        </div>
+        
+        <!-- Opciones del Menú -->
+        <div class="profile-menu-items">
+            <a href="#" id="openLoginModal" class="menu-item">
+                <i class="fas fa-sign-in-alt"></i>
+                <span>Iniciar sesión</span>
+            </a>
+            
+            <a href="#" id="openRegisterModal" class="menu-item">
+                <i class="fas fa-user-plus"></i>
+                <span>Registrarse</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+/* ===== ESTILOS DEL MENÚ DE AUTH ===== */
+.auth-menu-modal {
+    display: none;
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.auth-menu-modal .profile-menu-content {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    width: 280px;
+    overflow: hidden;
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.auth-menu-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 20px;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.auth-icon i {
+    font-size: 50px;
+}
+
+.auth-info h3 {
+    margin: 0 0 5px 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.auth-info p {
+    margin: 0;
+    font-size: 13px;
+    opacity: 0.9;
+}
+
+.auth-menu-modal .profile-menu-items {
+    padding: 10px 0;
+}
+
+.auth-menu-modal .menu-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px 20px;
+    color: #333;
+    text-decoration: none;
+    transition: background 0.2s;
+    cursor: pointer;
+}
+
+.auth-menu-modal .menu-item:hover {
+    background: #f5f5f5;
+}
+
+.auth-menu-modal .menu-item i {
+    width: 20px;
+    font-size: 18px;
+    color: #667eea;
+    text-align: center;
+}
+
+.auth-menu-modal .menu-item span {
+    font-size: 15px;
+}
+</style>

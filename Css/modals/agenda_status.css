@@ -1,0 +1,207 @@
+/* ============================================
+   MODAL DE CONFIRMACIÓN (SUCCESS)
+   ============================================ */
+
+.success-modal-content {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    border: 2px solid #B8923A;
+    border-radius: 0;
+    padding: 60px 40px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 10px 40px rgba(184, 146, 58, 0.3);
+}
+
+.success-icon-container {
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.success-checkmark {
+    animation: scaleIn 0.5s ease-out;
+}
+
+@keyframes scaleIn {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.success-title {
+    font-family: 'GFS Didot', serif;
+    font-size: 28px;
+    color: #FFFFFF;
+    margin-bottom: 30px;
+    letter-spacing: 1px;
+}
+
+/* Resumen de la cita */
+.cita-resumen {
+    background: rgba(184, 146, 58, 0.1);
+    border: 1px solid #B8923A;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.resumen-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(184, 146, 58, 0.2);
+}
+
+.resumen-item:last-child {
+    border-bottom: none;
+}
+
+.resumen-label {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    color: #B8923A;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.resumen-valor {
+    font-family: 'Lato', sans-serif;
+    color: #FFFFFF;
+    font-size: 16px;
+}
+
+.email-enviado-texto {
+    font-family: 'Lato', sans-serif;
+    color: #B8923A;
+    font-size: 14px;
+    margin-bottom: 25px;
+    font-style: italic;
+}
+
+.success-accept-btn {
+    background-color: #B8923A;
+    color: #1A1A1A;
+    border: none;
+    padding: 15px 60px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid #B8923A;
+}
+
+.success-accept-btn:hover {
+    background-color: transparent;
+    color: #B8923A;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(184, 146, 58, 0.3);
+}
+
+.success-accept-btn:active {
+    transform: translateY(0);
+}
+
+/* ============================================
+   MODAL DE RECHAZO (REJECT)
+   ============================================ */
+
+.reject-modal-content {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    border: 2px solid #8B0000;
+    border-radius: 0;
+    padding: 60px 40px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 10px 40px rgba(139, 0, 0, 0.3);
+}
+
+.reject-icon-container {
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.reject-icon {
+    animation: scaleIn 0.5s ease-out;
+}
+
+.reject-title {
+    font-family: 'GFS Didot', serif;
+    font-size: 28px;
+    color: #FFFFFF;
+    margin-bottom: 40px;
+    letter-spacing: 1px;
+}
+
+.reject-accept-btn {
+    background-color: #8B0000;
+    color: #FFFFFF;
+    border: none;
+    padding: 15px 60px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid #8B0000;
+}
+
+.reject-accept-btn:hover {
+    background-color: transparent;
+    color: #8B0000;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(139, 0, 0, 0.3);
+}
+
+.reject-accept-btn:active {
+    transform: translateY(0);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+    .success-modal-content,
+    .reject-modal-content {
+        padding: 40px 30px;
+        max-width: 90%;
+    }
+    
+    .success-title,
+    .reject-title {
+        font-size: 24px;
+    }
+    
+    .success-accept-btn,
+    .reject-accept-btn {
+        padding: 12px 40px;
+        font-size: 14px;
+    }
+    
+    .success-checkmark svg,
+    .reject-icon svg {
+        width: 60px;
+        height: 60px;
+    }
+}

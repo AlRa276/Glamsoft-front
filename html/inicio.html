@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio - Glamsoft</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=GFS+Didot&family=Lato:wght@300;400;700&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+             <link rel="stylesheet" href="../Css/modals/logout_confirm.css">
+    <link rel="stylesheet" href="../Css/modals/register.css">
+    
+    <link rel="stylesheet" href="../Css/modals/profile_menu.css"> 
+    <link rel="stylesheet" href="../Css/inicio.css">
+    <link rel="stylesheet" href="../Css/header_footer.css">
+    <link rel="stylesheet" href="../Css/modals/notificacion.css">
+    
+    <style>
+        /* Indicador de carga global */
+        .global-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        
+        .loader-spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid #B8860B;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .global-loader p {
+            color: white;
+            margin-top: 15px;
+            font-size: 16px;
+        }
+    </style>
+  
+
+
+</head>
+<body>
+    <!-- Indicador de carga global -->
+    <div id="global-loader" class="global-loader" style="display: none;">
+        <div class="loader-spinner"></div>
+        <p>Cargando...</p>
+    </div>
+
+    <div id="header-placeholder"></div>
+
+    <main>
+         <section class="hero-section">
+            <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=1200&h=600&fit=crop" alt="Hero" class="hero-image">
+            <div class="hero-overlay">
+            </div>
+        </section>
+
+        <section class="portfolio-section">
+            <h2 class="section-title">
+                <a href="portafolio.html" style="text-decoration: none; color: inherit;">
+                    Portafolio Trabajo
+                </a>
+            </h2>
+            <div class="portfolio-grid">
+                <a href="portafolio.html" class="portfolio-item">
+                    <img src="https://images.pexels.com/photos/3373746/pexels-photo-3373746.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&fit=crop" alt="Trabajo 1">
+                    <div class="portfolio-overlay">
+                        <p class="portfolio-label">Trabajo</p>
+                    </div>
+                </a>
+                <a href="portafolio.html" class="portfolio-item">
+                    <img src="https://images.pexels.com/photos/3997379/pexels-photo-3997379.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&fit=crop" alt="Trabajo 2">
+                    <div class="portfolio-overlay">
+                        <p class="portfolio-label">Trabajo</p>
+                    </div>
+                </a>
+                <a href="portafolio.html" class="portfolio-item">
+                    <img src="https://images.pexels.com/photos/3373734/pexels-photo-3373734.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&fit=crop" alt="Trabajo 3">
+                    <div class="portfolio-overlay">
+                        <p class="portfolio-label">Trabajo</p>
+                    </div>
+                </a>
+                <a href="portafolio.html" class="portfolio-item">
+                    <img src="https://images.pexels.com/photos/3373739/pexels-photo-3373739.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&fit=crop" alt="Trabajo 4">
+                    <div class="portfolio-overlay">
+                        <p class="portfolio-label">Trabajo</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section class="destacado-section">
+            <h2 class="section-title">Lo Más Destacado</h2>
+            <div class="destacado-grid">
+                <div class="destacado-item" style="background-image: url('https://images.pexels.com/photos/3373738/pexels-photo-3373738.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop'); background-size: cover; background-position: center;"></div>
+                <div class="destacado-item" style="background-image: url('https://images.pexels.com/photos/3465604/pexels-photo-3465604.jpeg?auto=compress&cs=tinysrgb&w=600&h=300&fit=crop'); background-size: cover; background-position: center;"></div>
+            </div>
+        </section>
+
+        <section class="comentarios-section">
+            <h2 class="section-title">Comentarios</h2>
+            <div class="comentarios-grid">
+                <div class="comentario-item" style="padding: 20px; display: flex; flex-direction: column; justify-content: center;">
+                    <p style="font-size: 14px; color: #ccc; line-height: 1.6;">"Excelente trabajo, quedé muy satisfecha con el resultado. Totalmente recomendado."</p>
+                    <p style="font-size: 12px; color: #B8860B; margin-top: 10px;">- María González</p>
+                </div>
+                <div class="comentario-item" style="padding: 20px; display: flex; flex-direction: column; justify-content: center;">
+                    <p style="font-size: 14px; color: #ccc; line-height: 1.6;">"Profesionalismo de primer nivel. El maquillaje duró perfecto toda la noche."</p>
+                    <p style="font-size: 12px; color: #B8860B; margin-top: 10px;">- Ana Martínez</p>
+                </div>
+                <div class="comentario-item" style="padding: 20px; display: flex; flex-direction: column; justify-content: center;">
+                    <p style="font-size: 14px; color: #ccc; line-height: 1.6;">"Me encantó el resultado, superó mis expectativas. Definitivamente volveré."</p>
+                    <p style="font-size: 12px; color: #B8860B; margin-top: 10px;">- Laura Pérez</p>
+                </div>
+                <div class="comentario-item" style="padding: 20px; display: flex; flex-direction: column; justify-content: center;">
+                    <p style="font-size: 14px; color: #ccc; line-height: 1.6;">"Increíble atención al detalle. Me sentí como una princesa en mi boda."</p>
+                    <p style="font-size: 12px; color: #B8860B; margin-top: 10px;">- Carmen Ruiz</p>
+                </div>
+                <div class="comentario-item" style="padding: 20px; display: flex; flex-direction: column; justify-content: center;">
+                    <p style="font-size: 14px; color: #ccc; line-height: 1.6;">"Trabajo impecable y muy profesional. Los productos son de excelente calidad."</p>
+                    <p style="font-size: 12px; color: #B8860B; margin-top: 10px;">- Sofía Torres</p>
+                </div>
+                <div class="comentario-item" style="padding: 20px; display: flex; flex-direction: column; justify-content: center;">
+                    <p style="font-size: 14px; color: #ccc; line-height: 1.6;">"La mejor experiencia de maquillaje que he tenido. ¡Altamente recomendado!"</p>
+                    <p style="font-size: 12px; color: #B8860B; margin-top: 10px;">- Patricia Morales</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="footer-placeholder"></div>
+    
+    <!-- Modal placeholder para ambos modales -->
+  <div id="modal-placeholder"></div>
+  <div id="modal-placeholder-logout"></div>
+
+
+    <!-- Scripts - Orden de carga importante -->
+    <!-- 1. Configuración -->
+    <script src="../config/api.config.js"></script>
+    
+    <!-- 2. Servicios HTTP base -->
+    <script src="../services/http.service.js"></script>
+    
+    <!-- 3. Servicios específicos -->
+    <script src="../services/auth.service.js"></script>
+    <script src="../services/valoraciones.service.js"></script>
+    <script src="../services/servicios.service.js"></script>
+    <script src="../services/portafolio.service.js"></script>
+    <script src="../services/categorias.service.js"></script>
+    <script src="../services/notificaciones.service.js"></script>
+    
+    <!-- 4. Utilidades -->
+    <script src="../utils/error-handler.js"></script>
+    <script src="../utils/state-manager.js"></script>
+    
+    <!-- 5. Scripts de página -->
+    <script src="../js/header_footer.js"></script>
+    <script src="../js/inicio.js"></script>
+</body>
+</html>

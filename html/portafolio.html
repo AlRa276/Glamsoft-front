@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portafolio - Glamsoft</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=GFS+Didot&family=Lato:wght@300;400;700&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+         <link rel="stylesheet" href="../Css/modals/logout_confirm.css">
+         <link rel="stylesheet" href="../Css/modals/agendar_servicios.css">
+         <link rel="stylesheet" href="../Css/modals/notificacion.css">
+      <link rel="stylesheet" href="../Css/modals/register.css">
+      <link rel="stylesheet" href="../Css/modals/profile_menu.css">
+    <link rel="stylesheet" href="../Css/header_footer.css">
+    <link rel="stylesheet" href="../Css/portafolio.css">
+     
+</head>
+<body>
+        <div id="header-placeholder"></div>
+    <main>
+        <section class="portfolio-section">
+            <h2 class="section-title" id="albumTitle">Nuestro Portafolio</h2>
+        </section>
+<section class="portfolio-gallery-section">
+    <div class="gallery-grid" id="portfolioGrid">
+        <!-- Los álbumes se cargarán dinámicamente desde la API -->
+    </div>
+
+    <!-- Estado vacío -->
+    <div id="emptyState" style="display: none; text-align: center; padding: 80px 20px;">
+        <i class="fas fa-images" style="font-size: 64px; color: #ccc; margin-bottom: 20px;"></i>
+        <h3 style="color: #999;">No hay álbumes en el portafolio</h3>
+        <p style="color: #bbb;">Los álbumes aparecerán aquí cuando se agreguen</p>
+    </div>
+
+    <!-- Loader -->
+    <div id="portfolioLoader" style="display: none; text-align: center; padding: 80px 20px;">
+        <i class="fas fa-spinner fa-spin" style="font-size: 48px; color: #ccc;"></i>
+        <p style="color: #999; margin-top: 20px;">Cargando portafolio...</p>
+    </div>
+</section>
+    </main>
+    <div id="footer-placeholder"></div>
+
+    <div id="modal-placeholder"></div>
+    <div id="modal-placeholder-logout"></div>
+
+
+
+   <div id="modal-placeholder-agendar"></div>
+
+    <!-- Scripts necesarios -->
+    <script src="../config/api.config.js"></script>
+    <script src="../services/http.service.js"></script>
+    <script src="../services/auth.service.js"></script>
+    <script src="../services/portafolio.service.js"></script>
+    <script src="../services/categorias.service.js"></script>
+    <script src="../js/header_footer.js"></script>
+    <script src="../js/portafolio.js"></script>
+</body>
+</html> 
+

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Portafolio - Estilista</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="../../Css/admin/admin-global.css">
+    <link rel="stylesheet" href="../../Css/modals/profile_menu.css">
+    <link rel="stylesheet" href="../../Css/modals/custom-modal.css">
+
+    <style>
+        /* Estilos específicos copiados del Admin para Drag & Drop y Galería */
+        .upload-zone {
+            border: 3px dashed #bdc3c7;
+            border-radius: 12px;
+            padding: 60px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+            background: white;
+        }
+        
+        .upload-zone:hover {
+            border-color: var(--admin-accent);
+            background: rgba(52, 152, 219, 0.05);
+        }
+        
+        .upload-zone.dragover {
+            border-color: #27ae60;
+            background: rgba(39, 174, 96, 0.1);
+        }
+        
+        .upload-icon {
+            font-size: 48px;
+            color: #bdc3c7;
+            margin-bottom: 15px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .gallery-item {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .gallery-content { padding: 15px; }
+        
+        .gallery-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--admin-primary);
+        }
+        
+        .gallery-description {
+            font-size: 13px;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        /* Ajuste del menú de perfil */
+        .profile-menu-modal {
+            top: 80px !important;
+            right: 20px !important;
+        }
+        
+        /* Loader */
+        .admin-loader {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255,255,255,0.9);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 9999;
+        }
+        .loader-spinner {
+            width: 50px; height: 50px;
+            border: 5px solid #f3f3f3; border-top: 5px solid #3498db;
+            border-radius: 50%; animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body class="admin-page">
+
+    <div id="sidebarContainer"></div>
+
+    <div class="admin-content">
+        <header class="admin-header">
+            <div class="header-title">
+                <h1>Mi Portafolio</h1>
+            </div>
+            <div class="header-actions">
+                <div class="user-profile-icon" id="stylistUserIcon" style="cursor: pointer;">
+                    <i class="ph ph-user" style="font-size: 24px; color: white;"></i>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            
+            <div class="upload-zone" id="uploadZone">
+                <input type="file" id="fileInput" accept="image/*" multiple style="display: none;">
+                <div class="upload-icon">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                </div>
+                <div class="upload-text">
+                    <strong>Arrastra tus fotos aquí</strong> o haz clic para seleccionar
+                    <br><small style="color: #95a5a6; margin-top: 5px; display: block;">Las imágenes con el mismo título formarán un álbum</small>
+                </div>
+            </div>
+
+            <div class="content-card">
+                <div class="card-header">
+                    <h2 class="card-title">Mis Trabajos Publicados</h2>
+                </div>
+                <div class="gallery-grid" id="galleryGrid">
+                    </div>
+                
+                <div id="emptyState" style="display: none; text-align: center; padding: 60px;">
+                    <i class="fas fa-images" style="font-size: 64px; color: #bdc3c7; margin-bottom: 20px;"></i>
+                    <p style="color: #7f8c8d; font-size: 18px;">No has subido imágenes todavía</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="modal-overlay" id="modalImagen" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Gestión de Imagen</h2>
+                <button class="close-modal" onclick="document.getElementById('modalImagen').classList.remove('active')">&times;</button>
+            </div>
+            
+            <form id="formImagen">
+                <input type="hidden" id="imagenId">
+                <input type="hidden" id="modoEdicion" value="false">
+
+                <div class="form-group" id="previewContainer">
+                    <img id="previewImagen" style="width: 100%; height: 300px; object-fit: cover; border-radius: 8px; margin-bottom: 15px; display: none;" />
+                    
+                    <div id="previewMultiple" style="display: none; margin-bottom: 15px;">
+                        <div style="margin-bottom: 10px; color: #7f8c8d; font-size: 14px;">
+                            <i class="fas fa-images"></i> <span id="cantidadImagenes">0</span> imagen(es) lista(s)
+                        </div>
+                        <div id="previewGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; max-height: 200px; overflow-y: auto;"></div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Título del Trabajo/Álbum *</label>
+                    <input type="text" class="form-control" id="tituloImagen" required placeholder="Ej: Corte Bob, Balayage Rubio...">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Descripción</label>
+                    <textarea class="form-control" id="descripcionImagen" rows="3" placeholder="Detalles del trabajo realizado..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Categoría</label>
+                    <select class="form-control" id="categoriaImagen">
+                        <option value="">Cargando categorías...</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        <input type="checkbox" id="destacadaImagen"> Marcar como destacado
+                    </label>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="document.getElementById('modalImagen').classList.remove('active')">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="profileMenuModal" class="profile-menu-modal" style="display: none;">
+        <div class="profile-menu-header">
+            <div class="profile-menu-avatar"></div>
+            <span class="profile-menu-name" id="menuUserName">Estilista</span>
+        </div>
+        <nav class="profile-menu-nav">
+            <ul>
+                <li><a href="../perfil.html">Mi Perfil</a></li>
+                <li><a href="#" id="headerLogoutBtn" style="color: #ff6b6b;">Cerrar sesión</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="admin-loader" id="loader" style="display: none;">
+        <div class="loader-spinner"></div>
+    </div>
+
+    <script src="../../config/api.config.js"></script>
+    <script src="../../utils/loader-manager.js"></script>
+    <script src="../../services/http.service.js"></script>
+    <script src="../../services/auth.service.js"></script>
+    <script src="../../services/categorias.service.js"></script>
+    <script src="../../services/portafolio.service.js"></script>
+    <script src="../../utils/error-handler.js"></script>
+    <script src="../../utils/state-manager.js"></script>
+    <script src="../../js/estilista/portafolio.js"></script>
+    <script src="../../utils/custom-modal.js"></script>
+<script src="../../services/auth.service.js"></script> ```
+
+  <script>
+    // --- 1. Funciones Globales de Modales ---
+    // Cierra cualquier modal activo (funciona para todas las vistas)
+    function closeModal() {
+        const activeModals = document.querySelectorAll('.modal-overlay.active');
+        activeModals.forEach(modal => modal.classList.remove('active'));
+    }
+
+    // --- 2. Carga del Sidebar y Lógica de Logout ---
+    fetch('_sidebar.html')
+        .then(response => response.text())
+        .then(html => {
+            // Inyectar el sidebar
+            document.getElementById('sidebarContainer').innerHTML = html;
+
+            // A) Marcar la opción activa en el menú
+            const path = window.location.pathname;
+            const page = path.split('/').pop().replace('.html', '') || 'dashboard';
+            const menuItems = document.querySelectorAll('.menu-item');
+            menuItems.forEach(item => {
+                if (item.getAttribute('data-page') === page) {
+                    item.classList.add('active');
+                }
+            });
+
+            // B) Lógica del Botón Cerrar Sesión (Estilo Dashboard)
+            const sidebarLogoutBtn = document.getElementById('logoutBtn');
+            
+            if (sidebarLogoutBtn) {
+                sidebarLogoutBtn.addEventListener('click', async (e) => {
+                    e.preventDefault();
+
+                    // Usar el modal personalizado (customConfirm) para mantener el estilo
+                    if (typeof customConfirm !== 'undefined' && typeof AuthService !== 'undefined') {
+                        const confirmed = await customConfirm(
+                            '¿Estás seguro de que deseas cerrar sesión?',
+                            'Cerrar Sesión',
+                            { icon: 'ph-sign-out' }
+                        );
+
+                        if (confirmed) {
+                            await AuthService.logout();
+                            window.location.href = '../inicio.html';
+                        }
+                    } else {
+                        // Fallback por seguridad si falla la carga de scripts
+                        if (confirm('¿Cerrar sesión?')) {
+                            window.location.href = '../inicio.html';
+                        }
+                    }
+                });
+            }
+        })
+        .catch(error => console.error('Error cargando el sidebar:', error));
+</script>
+</body>
+</html>

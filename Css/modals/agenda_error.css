@@ -1,0 +1,115 @@
+/* --- ESTILOS PARA EL MODAL DE ERROR --- */
+
+/* Este es el overlay (fondo oscuro). 
+  Tu código ya usa .modal-overlay y .visible, así que los reutilizamos.
+*/
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85); /* Un poco más oscuro como en tu foto */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    
+    /* Oculto por defecto */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+/* Clase para mostrar el modal */
+.modal-overlay.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* El contenido del modal (la ventana de error) */
+.error-modal-content {
+    background: #1a1a1a; /* Fondo oscuro (basado en la imagen) */
+    color: #ffffff;
+    padding: 25px 35px;
+    /* Este es el borde dorado de tu imagen */
+    border: 2px solid #a38a6a; 
+    text-align: center;
+    font-family: 'Lato', sans-serif;
+    position: relative;
+    width: 90%;
+    max-width: 450px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+    
+    /* Pequeña animación de entrada */
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
+}
+
+.modal-overlay.visible .error-modal-content {
+    transform: scale(1);
+}
+
+/* Título "ERROR" */
+.error-modal-content h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+}
+
+/* Mensaje de error */
+.error-modal-content p {
+    font-size: 1.1rem;
+    color: #e0e0e0;
+    margin-bottom: 30px;
+    line-height: 1.5;
+    /* Para que respete los saltos de línea \n de JavaScript */
+    white-space: pre-wrap; 
+}
+
+/* Botón "Ok" */
+.modal-btn-ok {
+    background: transparent;
+    border: 1px solid #ffffff;
+    color: #ffffff;
+    padding: 10px 35px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.modal-btn-ok:hover {
+    background: #a38a6a;
+    color: #1a1a1a;
+    border-color: #a38a6a;
+}
+
+/* Botón 'X' de cerrar (como en tu imagen) */
+.modal-close-btn {
+    position: absolute;
+    top: -5px; /* Ajustado para que se vea bien */
+    right: -5px;
+    background: #a38a6a; /* Fondo dorado */
+    border: 2px solid #1a1a1a;
+    border-radius: 50%;
+    color: #1a1a1a; /* Letra oscura */
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 1;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    transition: all 0.2s ease;
+}
+
+.modal-close-btn:hover {
+    background: #ffffff;
+    color: #1a1a1a;
+}

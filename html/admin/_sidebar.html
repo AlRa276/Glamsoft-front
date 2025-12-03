@@ -1,0 +1,121 @@
+<aside class="admin-sidebar" id="adminSidebar">
+    <div class="sidebar-header">
+        <div class="brand-wrapper">
+            </div>
+            <div class="brand-text">
+                <h2>GlamSoft</h2>
+            </div>
+        </div>
+    </div>
+    
+    <nav class="sidebar-menu">
+        <ul>
+            <li>
+                <a href="dashboard.html" class="menu-item" data-page="dashboard">
+                    <i class="ph ph-house sidebar-icon"></i>
+                    <span>Inicio</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="portafolio.html" class="menu-item" data-page="portafolio">
+                    <i class="ph ph-image sidebar-icon"></i>
+                    <span>Portafolio</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="promociones.html" class="menu-item" data-page="promociones">
+                    <i class="ph ph-tag sidebar-icon"></i>
+                    <span>Promociones</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="servicios.html" class="menu-item" data-page="servicios">
+                    <i class="ph ph-scissors sidebar-icon"></i>
+                    <span>Servicios</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="estilistas.html" class="menu-item" data-page="estilistas">
+                    <i class="ph ph-users sidebar-icon"></i>
+                    <span>Estilistas</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="calendario.html" class="menu-item" data-page="calendario">
+                    <i class="ph ph-calendar-check sidebar-icon"></i>
+                    <span>Calendario</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="confirmaciones.html" class="menu-item" data-page="confirmaciones">
+                    <i class="ph ph-check-circle sidebar-icon"></i>
+                    <span>Confirmaciones</span>
+                </a>
+            </li>
+
+            <li class="menu-section-label">Gestión</li>
+
+            <li>
+                <a href="reportes.html" class="menu-item" data-page="reportes">
+                    <i class="ph ph-chart-bar sidebar-icon"></i>
+                    <span>Reportes</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="formularios.html" class="menu-item" data-page="formularios">
+                    <i class="ph ph-clipboard-text sidebar-icon"></i>
+                    <span>Formularios</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="comentarios.html" class="menu-item" data-page="comentarios">
+                    <i class="ph ph-chat-teardrop-text sidebar-icon"></i>
+                    <span>Comentarios</span>
+                </a>
+            </li>
+            
+            <!-- Notificaciones admin eliminadas -->
+        </ul>
+    </nav>
+    
+   <div class="sidebar-footer">
+        <a href="../inicio.html" class="menu-item" title="Volver a la página principal">
+            <i class="ph ph-globe sidebar-icon"></i>
+            <span>Reguresar Inicio</span>
+        </a>
+
+        <a href="#" class="menu-item logout-link" id="logoutBtn">
+            <i class="ph ph-sign-out sidebar-icon"></i>
+            <span>Cerrar Sesión</span>
+        </a>
+    </div>
+</aside>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const path = window.location.pathname;
+    const page = path.split('/').pop().replace('.html', '') || 'dashboard';
+    const menuItems = document.querySelectorAll('.menu-item');
+    
+    menuItems.forEach(item => {
+        if (item.getAttribute('data-page') === page) {
+            item.classList.add('active');
+        }
+    });
+    
+    document.getElementById('logoutBtn')?.addEventListener('click', async function(e) {
+        e.preventDefault();
+        if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
+            window.location.href = '../inicio.html';
+        }
+    });
+});
+</script>

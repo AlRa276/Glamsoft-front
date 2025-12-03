@@ -1,0 +1,114 @@
+/* --- Estilos de la Página "Valorar Servicio" --- */
+
+main {
+    background-color: #111; /* Fondo principal oscuro */
+    color: #f0f0f0;
+    padding: 6rem 2rem;
+}
+
+.valorar-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.section-title {
+    font-family: 'GFS Didot', serif;
+    font-size: 2rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 2rem;
+}
+
+.valorar-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr; /* Columna de imagen más pequeña */
+    gap: 3rem;
+    align-items: flex-start;
+}
+
+.servicio-card {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.servicio-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.form-container p {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.9rem;
+    color: #aaa;
+    margin-bottom: 0.5rem;
+}
+
+/* --- Sistema de Estrellas --- */
+.star-rating {
+    margin-bottom: 2rem;
+}
+
+.star-rating i {
+    font-size: 1.75rem;
+    color: #f0f0f0; /* Color de estrellas vacías */
+    margin-right: 8px;
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.1s ease;
+}
+
+.star-rating i:hover {
+    transform: scale(1.1);
+}
+
+/* Clases para estrellas (se añaden con JS) */
+.star-rating i.fas {
+    color: #d4af37; /* Color dorado para estrella llena */
+}
+
+/* --- Comentario y Botón --- */
+#comentario {
+    width: 100%;
+    height: 150px;
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 1rem;
+    color: #f0f0f0;
+    font-family: 'Lato', sans-serif;
+    font-size: 1rem;
+    resize: vertical;
+    margin-bottom: 2rem;
+}
+
+.btn-publicar {
+    background-color: transparent;
+    border: 1px solid #f0f0f0; /* Borde blanco */
+    color: #f0f0f0;
+    padding: 0.8rem 2rem;
+    border-radius: 4px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-publicar:hover {
+    background-color: #f0f0f0;
+    color: #1a1a1a;
+}
+
+/* --- Media Query para móviles --- */
+@media (max-width: 768px) {
+    .valorar-grid {
+        grid-template-columns: 1fr; /* Una sola columna en móvil */
+        gap: 2rem;
+    }
+    .servicio-card {
+        max-width: 300px; /* Evita que la imagen sea muy grande */
+        margin: 0 auto;
+    }
+}

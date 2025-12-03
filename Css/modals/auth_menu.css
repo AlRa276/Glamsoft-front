@@ -1,0 +1,39 @@
+/* Estilo para el NUEVO menú de autenticación (no logueado).
+  Es similar a 'profile-menu-modal' pero más simple.
+*/
+.auth-menu-modal {
+    display: none; /* Oculto por defecto */
+    /* ✅ CAMBIO CRÍTICO: De absolute a fixed para que no se mueva al hacer scroll */
+    position: fixed;
+    top: 70px; /* Ajusta esto según la altura de tu header */
+    right: 20px; /* Ajusta esto para alinearlo con tu icono de usuario */
+    background-color: #1a1a1a; /* Color oscuro como en tu imagen */
+    border: 1px solid #cda45e; /* Borde dorado */
+    border-radius: 4px;
+    z-index: 2000; /* Por encima de todo */
+    min-width: 180px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* Aseguramos que la navegación dentro del menú de perfil
+  (tanto logueado como no logueado) se vea bien.
+*/
+.profile-menu-nav ul {
+    list-style: none;
+    padding: 10px 0;
+    margin: 0;
+}
+
+.profile-menu-nav li a {
+    display: block;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #ffffff; /* Texto blanco */
+    font-size: 15px;
+    transition: background-color 0.2s ease;
+}
+
+.profile-menu-nav li a:hover {
+    background-color: #cda45e; /* Hover dorado */
+    color: #1a1a1a; /* Texto oscuro en hover */
+}
