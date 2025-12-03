@@ -101,6 +101,137 @@ const EmailService = {
     },
 
     /**
+     * Enviar correo de cancelación de cita
+     * @param {Object} citaData - Datos de la cita
+     * @param {string} citaData.email - Email del cliente
+     * @param {string} citaData.nombreCliente - Nombre del cliente
+     * @param {string} citaData.fecha - Fecha de la cita
+     * @param {string} citaData.hora - Hora de la cita
+     * @param {string} citaData.servicio - Nombre del servicio
+     * @param {string} citaData.estilista - Nombre del estilista
+     * @param {string} citaData.motivoCancelacion - Motivo de cancelación
+     * @returns {Promise}
+     */
+    async enviarCancelacionCita(citaData) {
+        try {
+            console.log('📧 Enviando correo de cancelación...', citaData);
+
+            const clienteEmail = citaData.email;
+            const clienteNombre = citaData.nombreCliente || 'Cliente';
+
+            if (!clienteEmail) {
+                console.warn('⚠️ No se encontró email del cliente');
+                return { success: false, message: 'Email del cliente no disponible' };
+            }
+
+            const fechaFormateada = this.formatearFecha(citaData.fecha);
+            const horaFormateada = this.formatearHora(citaData.hora);
+
+            const templateParams = {
+                to_email: clienteEmail,
+                to_name: clienteNombre,
+                fecha: fechaFormateada,
+                hora: horaFormateada,
+                servicio: citaData.servicio || 'Servicio',
+                estilista: citaData.estilista || 'Estilista',
+                motivo: citaData.motivoCancelacion || 'Sin motivo especificado',
+                salon_nombre: 'GLAMSOFT',
+                salon_direccion: '295 Natalia Venegas, Tuxtla Gutiérrez, Chiapas',
+                salon_telefono: '+961 933 4376'
+            };
+
+            console.log('📧 Parámetros del email de cancelación:', templateParams);
+
+            // Nota: Debes crear una plantilla específica para cancelaciones en EmailJS
+            // Por ahora usaremos la misma plantilla pero con diferentes datos
+            const response = await emailjs.send(
+                this.config.SERVICE_ID,
+                'template_cancelacion', // CREAR ESTA PLANTILLA EN EMAILJS
+                templateParams
+            );
+
+            console.log('Email de cancelación enviado:', response);
+            return {
+                success: true,
+                message: 'Email de cancelación enviado correctamente',
+                response
+            };
+
+        } catch (error) {
+            console.error(' Error al enviar email de cancelación:', error);
+            return {
+                success: false,
+                message: error.text || error.message || 'Error al enviar email de cancelación',
+                error
+            };
+        }
+    },
+
+    /**
+     * Enviar correo de rechazo de cita
+     * @param {Object} citaData - Datos de la cita
+     * @param {string} citaData.email - Email del cliente
+     * @param {string} citaData.nombreCliente - Nombre del cliente
+     * @param {string} citaData.fecha - Fecha de la cita
+     * @param {string} citaData.hora - Hora de la cita
+     * @param {string} citaData.servicio - Nombre del servicio
+     * @param {string} citaData.motivoRechazo - Motivo del rechazo
+     * @returns {Promise}
+     */
+    async enviarRechazo(citaData) {
+        try {
+            console.log('📧 Enviando correo de rechazo...', citaData);
+
+            const clienteEmail = citaData.email;
+            const clienteNombre = citaData.nombreCliente || 'Cliente';
+
+            if (!clienteEmail) {
+                console.warn('⚠️ No se encontró email del cliente');
+                return { success: false, message: 'Email del cliente no disponible' };
+            }
+
+            const fechaFormateada = this.formatearFecha(citaData.fecha);
+            const horaFormateada = this.formatearHora(citaData.hora);
+
+            const templateParams = {
+                to_email: clienteEmail,
+                to_name: clienteNombre,
+                fecha: fechaFormateada,
+                hora: horaFormateada,
+                servicio: citaData.servicio || 'Servicio',
+                motivo: citaData.motivoRechazo || 'No pudimos aceptar tu solicitud en este momento',
+                salon_nombre: 'GLAMSOFT',
+                salon_direccion: '295 Natalia Venegas, Tuxtla Gutiérrez, Chiapas',
+                salon_telefono: '+961 933 4376'
+            };
+
+            console.log('📧 Parámetros del email de rechazo:', templateParams);
+
+            // Nota: Debes crear una plantilla específica para rechazos en EmailJS
+            const response = await emailjs.send(
+                this.config.SERVICE_ID,
+                'template_rechazo', // CREAR ESTA PLANTILLA EN EMAILJS
+                templateParams
+            );
+
+            console.log('✅ Email de rechazo enviado:', response);
+            return {
+                success: true,
+                message: 'Email de rechazo enviado correctamente',
+                response
+            };
+
+        } catch (error) {
+            console.error('❌ Error al enviar email de rechazo:', error);
+            return {
+                success: false,
+                message: error.text || error.message || 'Error al enviar email de rechazo',
+                error
+            };
+        }
+    },
+
+    /**
      * Formatear fecha de YYYY-MM-DD a DD/MM/YYYY
      */
     formatearFecha(fecha) {
