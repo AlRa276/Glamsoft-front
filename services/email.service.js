@@ -12,9 +12,10 @@
 const EmailService = {
     // ⚠️ REEMPLAZAR ESTAS CREDENCIALES CON LAS TUYAS DE EMAILJS
     config: {
-        PUBLIC_KEY: '9Ce6AidPK8kcH6EXo',           // De Account > General
-        SERVICE_ID: 'service_q7btbxm',            // De Email Services
-        TEMPLATE_ID: 'template_0vtm193'           // De Email Templates
+        PUBLIC_KEY: 'xQhudGkXuGd8vrRpH',           // De Account > General
+        SERVICE_ID: 'service_44nm6rr',            // De Email Services
+        TEMPLATE_ID: 'template_elav59h',           // De Email Templates
+        TEMPLATE_RECHAZO_ID: 'template_ig81qdn'    // Plantilla para rechazo
     },
 
     /**
@@ -101,7 +102,7 @@ const EmailService = {
     },
 
     /**
-     * Enviar correo de cancelación de cita
+     * Enviar correo de rechazo o cancelación (método único)
      * @param {Object} citaData - Datos de la cita
      * @param {string} citaData.email - Email del cliente
      * @param {string} citaData.nombreCliente - Nombre del cliente
@@ -109,12 +110,12 @@ const EmailService = {
      * @param {string} citaData.hora - Hora de la cita
      * @param {string} citaData.servicio - Nombre del servicio
      * @param {string} citaData.estilista - Nombre del estilista
-     * @param {string} citaData.motivoCancelacion - Motivo de cancelación
+     * @param {string} citaData.motivo - Motivo del rechazo/cancelación
      * @returns {Promise}
      */
-    async enviarCancelacionCita(citaData) {
+    async enviarRechazoOCancelacion(citaData) {
         try {
-            console.log('📧 Enviando correo de cancelación...', citaData);
+            console.log('📧 Enviando correo de rechazo/cancelación...', citaData);
 
             const clienteEmail = citaData.email;
             const clienteNombre = citaData.nombreCliente || 'Cliente';
@@ -134,98 +135,32 @@ const EmailService = {
                 hora: horaFormateada,
                 servicio: citaData.servicio || 'Servicio',
                 estilista: citaData.estilista || 'Estilista',
-                motivo: citaData.motivoCancelacion || 'Sin motivo especificado',
+                motivo: citaData.motivo || 'No se especificó motivo',
                 salon_nombre: 'GLAMSOFT',
                 salon_direccion: '295 Natalia Venegas, Tuxtla Gutiérrez, Chiapas',
                 salon_telefono: '+961 933 4376'
             };
 
-            console.log('📧 Parámetros del email de cancelación:', templateParams);
+            console.log('📧 Parámetros del email:', templateParams);
 
-            // Nota: Debes crear una plantilla específica para cancelaciones en EmailJS
-            // Por ahora usaremos la misma plantilla pero con diferentes datos
             const response = await emailjs.send(
                 this.config.SERVICE_ID,
-                'template_cancelacion', // CREAR ESTA PLANTILLA EN EMAILJS
+                this.config.TEMPLATE_RECHAZO_ID,
                 templateParams
             );
 
-            console.log('Email de cancelación enviado:', response);
+            console.log('✅ Email enviado exitosamente:', response);
             return {
                 success: true,
-                message: 'Email de cancelación enviado correctamente',
+                message: 'Email enviado correctamente',
                 response
             };
 
         } catch (error) {
-            console.error(' Error al enviar email de cancelación:', error);
+            console.error('❌ Error al enviar email:', error);
             return {
                 success: false,
-                message: error.text || error.message || 'Error al enviar email de cancelación',
-                error
-            };
-        }
-    },
-
-    /**
-     * Enviar correo de rechazo de cita
-     * @param {Object} citaData - Datos de la cita
-     * @param {string} citaData.email - Email del cliente
-     * @param {string} citaData.nombreCliente - Nombre del cliente
-     * @param {string} citaData.fecha - Fecha de la cita
-     * @param {string} citaData.hora - Hora de la cita
-     * @param {string} citaData.servicio - Nombre del servicio
-     * @param {string} citaData.motivoRechazo - Motivo del rechazo
-     * @returns {Promise}
-     */
-    async enviarRechazo(citaData) {
-        try {
-            console.log('📧 Enviando correo de rechazo...', citaData);
-
-            const clienteEmail = citaData.email;
-            const clienteNombre = citaData.nombreCliente || 'Cliente';
-
-            if (!clienteEmail) {
-                console.warn('⚠️ No se encontró email del cliente');
-                return { success: false, message: 'Email del cliente no disponible' };
-            }
-
-            const fechaFormateada = this.formatearFecha(citaData.fecha);
-            const horaFormateada = this.formatearHora(citaData.hora);
-
-            const templateParams = {
-                to_email: clienteEmail,
-                to_name: clienteNombre,
-                fecha: fechaFormateada,
-                hora: horaFormateada,
-                servicio: citaData.servicio || 'Servicio',
-                motivo: citaData.motivoRechazo || 'No pudimos aceptar tu solicitud en este momento',
-                salon_nombre: 'GLAMSOFT',
-                salon_direccion: '295 Natalia Venegas, Tuxtla Gutiérrez, Chiapas',
-                salon_telefono: '+961 933 4376'
-            };
-
-            console.log('📧 Parámetros del email de rechazo:', templateParams);
-
-            // Nota: Debes crear una plantilla específica para rechazos en EmailJS
-            const response = await emailjs.send(
-                this.config.SERVICE_ID,
-                'template_rechazo', // CREAR ESTA PLANTILLA EN EMAILJS
-                templateParams
-            );
-
-            console.log('✅ Email de rechazo enviado:', response);
-            return {
-                success: true,
-                message: 'Email de rechazo enviado correctamente',
-                response
-            };
-
-        } catch (error) {
-            console.error('❌ Error al enviar email de rechazo:', error);
-            return {
-                success: false,
-                message: error.text || error.message || 'Error al enviar email de rechazo',
+                message: error.text || error.message || 'Error al enviar email',
                 error
             };
         }

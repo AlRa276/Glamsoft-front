@@ -346,42 +346,118 @@ async checkAuth() {
         }
     }
 
-    async rechazarCita(citaId) {
-        const motivo = await customPrompt(
-            'Ingresa el motivo del rechazo (opcional):',
-            'Rechazar Cita',
-            '',
-            {
-                placeholder: 'Motivo del rechazo...',
-                icon: 'ph-x-circle'
-            }
+
+async rechazarCita(citaId) {
+    const motivo = await customPrompt(
+        'Ingresa el motivo del rechazo (opcional):',
+        'Rechazar Cita',
+        '',
+        {
+            placeholder: 'Motivo del rechazo...',
+            icon: 'ph-x-circle'
+        }
+    );
+
+    if (motivo === null) {
+        return; // Usuario canceló
+    }
+
+    this.showLoader();
+
+    try {
+        // Buscar datos completos de la cita antes de rechazar
+        const cita = this.citasPendientes.find(c => (c.idCita || c.id) === citaId);
+
+        if (!cita) {
+            throw new Error('No se encontró la cita');
+        }
+
+        // Rechazar la cita en el backend
+        await CitasService.rechazar(citaId, motivo);
+
+        // Enviar email de rechazo
+        await this.enviarEmailRechazo(cita, motivo);
+
+        await customAlert(
+            'Cita rechazada. Se ha enviado un email al cliente.',
+            'Cita Rechazada',
+            { type: 'warning' }
         );
 
-        if (motivo === null) {
-            return; // Usuario canceló
-        }
+        // Recargar lista
+        await this.loadCitasPendientes();
 
-        this.showLoader();
-
-        try {
-            await CitasService.rechazar(citaId, motivo);
-
-            await customAlert(
-                'Cita rechazada. Se ha notificado al cliente.',
-                'Cita Rechazada',
-                { type: 'warning' }
-            );
-
-            // Recargar lista
-            await this.loadCitasPendientes();
-
-        } catch (error) {
-            console.error('Error al rechazar cita:', error);
-            await customAlert('Error al rechazar la cita', 'Error', { type: 'error' });
-        } finally {
-            this.hideLoader();
-        }
+    } catch (error) {
+        console.error('Error al rechazar cita:', error);
+        await customAlert('Error al rechazar la cita', 'Error', { type: 'error' });
+    } finally {
+        this.hideLoader();
     }
+}
+
+async enviarEmailRechazo(cita, motivo) {
+    try {
+        // Extraer fecha y hora
+        let fecha = '';
+        let hora = '';
+
+        if (Array.isArray(cita.fechaHoraCita) && cita.fechaHoraCita.length >= 3) {
+            const [year, month, day, hour, minute] = cita.fechaHoraCita;
+            fecha = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            if (hour !== undefined && minute !== undefined) {
+                hora = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+            }
+        }
+
+        // Extraer servicios
+        let servicioNombre = 'Servicio';
+        if (Array.isArray(cita.servicios) && cita.servicios.length > 0) {
+            servicioNombre = cita.servicios.map(s => s.nombre || s).join(', ');
+        }
+
+        // Obtener email del cliente
+        let clienteEmail = null;
+        try {
+            if (cita.telefonoCliente) {
+                const url = API_CONFIG.buildUrl(`/usuarios/telefono/${cita.telefonoCliente}`);
+                const response = await httpService.get(url);
+                const userData = response.data?.data || response.data;
+                clienteEmail = userData?.email;
+                console.log('✅ Email del cliente obtenido:', clienteEmail);
+            }
+        } catch (error) {
+            console.warn('⚠️ No se pudo obtener el email del cliente:', error);
+        }
+
+        // Preparar datos para el email
+        const emailData = {
+            email: clienteEmail,
+            nombreCliente: cita.nombreCliente || cita.cliente?.nombre || 'Cliente',
+            fecha: fecha,
+            hora: hora,
+            servicio: servicioNombre,
+            estilista: cita.nombreEstilista || cita.estilista?.nombre || 'Estilista',
+            motivo: motivo || 'No se especificó motivo'
+        };
+
+        console.log('📧 Enviando email de rechazo:', emailData);
+
+        // Enviar email usando el método único
+        if (typeof EmailService !== 'undefined' && EmailService.isConfigured()) {
+            const result = await EmailService.enviarRechazoOCancelacion(emailData);
+            if (result.success) {
+                console.log('✅ Email enviado exitosamente');
+            } else {
+                console.warn('⚠️ No se pudo enviar el email:', result.message);
+            }
+        } else {
+            console.warn('⚠️ EmailService no está disponible o configurado');
+        }
+    } catch (error) {
+        console.error('❌ Error al enviar email:', error);
+        // No lanzar error para no interrumpir el flujo
+    }
+}
 
     showNotification(message, type = 'info') {
         const notification = document.createElement('div');
